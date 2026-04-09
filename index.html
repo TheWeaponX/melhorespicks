@@ -706,126 +706,64 @@ footer{
 
 <script>
 const ADMIN_PASSWORD = "farenheit";
-const SITE_NAME = "MelhoresPicks";
 
 let items = [];
 let editId = null;
 let activeCategory = 'all';
 let authed = false;
-let currentTab = 'list';
 
 /* ================= API ================= */
+
 async function loadItems() {
   const res = await fetch("https://melhorespicks.vercel.app/api/produtos");
   const data = await res.json();
   items = data.produtos || [];
 }
 
-function saveItems() {} // desativado
+async function saveToAPI(item) {
+  await fetch("https://melhorespicks.vercel.app/api/produtos", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(item)
+  });
+}
 
-/* ================= RESTO IGUAL ================= */
+async function deleteFromAPI(id) {
+  await fetch("https://melhorespicks.vercel.app/api/produtos", {
+    method: "DELETE",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ id })
+  });
+}
+
+/* ================= RENDER ================= */
 
 function render() {
   document.getElementById('ano').textContent = new Date().getFullYear();
-  const uniqueCats = [...new Set(items.map(i=>i.cat).filter(Boolean))];
-  document.getElementById('stat-products').textContent = items.length;
-  document.getElementById('stat-cats').textContent = uniqueCats.length;
 
-  const navCats = document.getElementById('nav-cats');
-  navCats.innerHTML = ['all', ...uniqueCats].map(c =>
-    `<button class="cat-btn${c===activeCategory?' active':''}" onclick="setCategory('${esc(c)}')">${c==='all'?'Todos':esc(c)}</button>`
-  ).join('');
-
-  const feat = items.find(i => i.feat);
-  const fs = document.getElementById('featured-section');
-  const fd = document.getElementById('feat-divider');
-
-  if (feat) {
-    fs.style.display = 'block';
-    fd.style.display = 'block';
-    document.getElementById('featured-card').innerHTML = `
-      <a class="featured-wrap" href="${esc(feat.link)}" target="_blank">
-        <div class="feat-img">
-          ${feat.img ? `<img src="${esc(feat.img)}"/>` : ''}
-          <div class="feat-badge">⭐ Destaque</div>
-        </div>
-        <div class="feat-body">
-          <div class="feat-name">${esc(feat.name)}</div>
-          <div class="feat-desc">${esc(feat.desc||'')}</div>
-          <div class="feat-bottom">
-            <div class="feat-price">${esc(feat.price||'')}</div>
-          </div>
-        </div>
-      </a>`;
-  } else {
-    fs.style.display = 'none';
-    fd.style.display = 'none';
-  }
-
-  const visible = items;
   const grid = document.getElementById('grid');
 
-  grid.innerHTML = visible.map(it => `
-    <a class="pcard" href="${esc(it.link)}" target="_blank">
+  grid.innerHTML = items.map(it => `
+    <a class="pcard" href="${it.link}" target="_blank">
       <div class="pcard-img">
-        ${it.img ? `<img src="${esc(it.img)}"/>` : ''}
+        ${it.img ? `<img src="${it.img}"/>` : ''}
       </div>
       <div class="pcard-body">
-        <div class="pcard-name">${esc(it.name)}</div>
+        <div class="pcard-name">${it.name}</div>
       </div>
       <div class="pcard-foot">
-        <div class="pcard-price">${esc(it.price||'')}</div>
+        <div class="pcard-price">${it.price || ''}</div>
       </div>
     </a>
   `).join('');
+
+  renderAdminList();
 }
 
-function setCategory(c) { activeCategory = c; render(); }
-
-async function saveItem() {
-  const name = document.getElementById('f-name').value.trim();
-  const link = document.getElementById('f-link').value.trim();
-
-  if (!name || !link) return;
-
-  const item = {
-    id: Date.now().toString(),
-    name,
-    link,
-    cat: document.getElementById('f-cat').value.trim(),
-    price: document.getElementById('f-price').value.trim(),
-    desc: document.getElementById('f-desc').value.trim(),
-    img: document.getElementById('f-img').value.trim(),
-    feat: document.getElementById('f-feat').checked
-  };
-
-  await fetch("https://melhorespicks.vercel.app/api/produtos", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(item)
-  });
-
-  await loadItems();
-  render();
-}
-
-function esc(s) {
-  return String(s||'').replace(/</g,'&lt;');
-}
-
-/* ================= INIT ================= */
-loadItems().then(() => {
-  render();
-});
-  /* ================= ADMIN ================= */
+/* ================= ADMIN ================= */
 
 function openPwModal() {
-  if (authed) {
-    openAdminModal();
-    return;
-  }
+  if (authed) return openAdminModal();
   document.getElementById('pw-overlay').classList.add('open');
 }
 
@@ -835,7 +773,6 @@ function closePwModal() {
 
 function checkPw() {
   const val = document.getElementById('pw-input').value;
-
   if (val === ADMIN_PASSWORD) {
     authed = true;
     closePwModal();
@@ -853,6 +790,67 @@ function closeAdminModal() {
   document.getElementById('admin-overlay').classList.remove('open');
 }
 
+/* ================= LISTA ADMIN ================= */
+
+function renderAdminList() {
+  const el = document.getElementById('admin-prod-list');
+
+  el.innerHTML = items.map(it => `
+    <div class="prod-item">
+      <span>${it.name}</span>
+      <button onclick="editItem('${it.id}')">✏️</button>
+      <button onclick="deleteItem('${it.id}')">🗑️</button>
+    </div>
+  `).join('');
+}
+
+/* ================= CRUD ================= */
+
+function editItem(id) {
+  const it = items.find(x => x.id === id);
+  if (!it) return;
+
+  editId = id;
+
+  document.getElementById('f-name').value = it.name;
+  document.getElementById('f-link').value = it.link;
+  document.getElementById('f-cat').value = it.cat || '';
+  document.getElementById('f-price').value = it.price || '';
+  document.getElementById('f-desc').value = it.desc || '';
+  document.getElementById('f-img').value = it.img || '';
+  document.getElementById('f-feat').checked = it.feat || false;
+}
+
+async function saveItem() {
+  const item = {
+    id: editId || Date.now().toString(),
+    name: document.getElementById('f-name').value,
+    link: document.getElementById('f-link').value,
+    cat: document.getElementById('f-cat').value,
+    price: document.getElementById('f-price').value,
+    desc: document.getElementById('f-desc').value,
+    img: document.getElementById('f-img').value,
+    feat: document.getElementById('f-feat').checked
+  };
+
+  await saveToAPI(item);
+
+  await loadItems();
+  render();
+
+  clearForm();
+  editId = null;
+}
+
+async function deleteItem(id) {
+  if (!confirm("Excluir produto?")) return;
+
+  await deleteFromAPI(id);
+
+  await loadItems();
+  render();
+}
+
 /* ================= FORM ================= */
 
 function clearForm() {
@@ -861,15 +859,10 @@ function clearForm() {
   document.getElementById('f-feat').checked = false;
 }
 
-/* ================= UI EXTRA ================= */
+/* ================= INIT ================= */
 
-document.getElementById('pw-overlay')?.addEventListener('click', function(e) {
-  if (e.target === this) closePwModal();
-});
+loadItems().then(() => render());
 
-document.getElementById('admin-overlay')?.addEventListener('click', function(e) {
-  if (e.target === this) closeAdminModal();
-});
 </script>
 </body>
 </html>
