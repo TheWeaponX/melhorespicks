@@ -705,159 +705,317 @@ footer{
 <div class="toast" id="toast"></div>
 
 <script>
-const ADMIN_PASSWORD = "farenheit";
-const SITE_NAME = "MelhoresPicks";
+/* ============================================================
+   CONFIGURAÇÃO – ALTERE ANTES DE HOSPEDAR
+   ============================================================ */
+const ADMIN_PASSWORD = "suasenhaaqui"; // ← TROQUE ESTA SENHA!
+const SITE_NAME = "MelhoresPicks";     // ← Nome do seu site
 
+/* ============================================================
+   ESTADO
+   ============================================================ */
 let items = [];
 let editId = null;
 let activeCategory = 'all';
 let authed = false;
 let currentTab = 'list';
 
-/* ================= LOCAL STORAGE ================= */
-
+/* ============================================================
+   PERSISTÊNCIA (localStorage)
+   ============================================================ */
 function loadItems() {
   try {
     const raw = localStorage.getItem('mpicks_products');
     items = raw ? JSON.parse(raw) : [];
   } catch(e) { items = []; }
 }
-
 function saveItems() {
   localStorage.setItem('mpicks_products', JSON.stringify(items));
 }
 
-/* ================= RENDER ================= */
-
+/* ============================================================
+   RENDER PRINCIPAL
+   ============================================================ */
 function render() {
   document.getElementById('ano').textContent = new Date().getFullYear();
+  const uniqueCats = [...new Set(items.map(i=>i.cat).filter(Boolean))];
+  document.getElementById('stat-products').textContent = items.length;
+  document.getElementById('stat-cats').textContent = uniqueCats.length;
 
-  const grid = document.getElementById('grid');
+  // nav cats
+  const navCats = document.getElementById('nav-cats');
+  navCats.innerHTML = ['all', ...uniqueCats].map(c =>
+    `<button class="cat-btn${c===activeCategory?' active':''}" onclick="setCategory('${esc(c)}')">${c==='all'?'Todos':esc(c)}</button>`
+  ).join('');
 
-  if (items.length === 0) {
-    grid.innerHTML = `<p style="opacity:.6">Nenhum produto ainda</p>`;
-    return;
+  // featured
+  const feat = items.find(i => i.feat);
+  const fs = document.getElementById('featured-section');
+  const fd = document.getElementById('feat-divider');
+  if (feat) {
+    fs.style.display = 'block';
+    fd.style.display = 'block';
+    document.getElementById('featured-card').innerHTML = `
+      <a class="featured-wrap" href="${esc(feat.link)}" target="_blank" rel="nofollow sponsored noopener">
+        <div class="feat-img">
+          ${feat.img
+            ? `<img src="${esc(feat.img)}" alt="${esc(feat.name)}" onerror="this.style.display='none'"/>`
+            : imgPlaceholderSVG(80)}
+          <div class="feat-badge">⭐ Destaque da semana</div>
+        </div>
+        <div class="feat-body">
+          ${feat.cat ? `<div class="feat-cat">${esc(feat.cat)}</div>` : ''}
+          <div class="feat-name">${esc(feat.name)}</div>
+          <div class="feat-desc">${esc(feat.desc||'')}</div>
+          <div class="feat-bottom">
+            ${feat.price ? `<div class="feat-price">${esc(feat.price)}</div>` : '<div></div>'}
+            <div class="btn-primary">
+              <svg viewBox="0 0 20 20"><path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"/><path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"/></svg>
+              Ver na Amazon
+            </div>
+          </div>
+        </div>
+      </a>`;
+  } else {
+    fs.style.display = 'none';
+    fd.style.display = 'none';
   }
 
-  grid.innerHTML = items.map(it => `
-    <a class="pcard" href="${it.link}" target="_blank">
+  // product grid
+  const visible = items.filter(i => activeCategory === 'all' || i.cat === activeCategory);
+  document.getElementById('grid-title').textContent = activeCategory === 'all' ? 'Todos os produtos' : activeCategory;
+  const grid = document.getElementById('grid');
+  if (visible.length === 0) {
+    grid.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      </div>
+      <div class="empty-title">Nenhum produto ainda</div>
+      <div class="empty-sub">Clique em "Admin" para adicionar seus primeiros produtos</div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = visible.map(it => `
+    <a class="pcard" href="${esc(it.link)}" target="_blank" rel="nofollow sponsored noopener">
       <div class="pcard-img">
-        ${it.img ? `<img src="${it.img}"/>` : ''}
+        ${it.img
+          ? `<img src="${esc(it.img)}" alt="${esc(it.name)}" onerror="this.style.display='none'"/>`
+          : ''}
+        <svg class="pcard-img-placeholder" width="52" height="52" viewBox="0 0 52 52" fill="none">
+          <rect x="6" y="10" width="40" height="32" rx="5" stroke="white" stroke-width="2"/>
+          <circle cx="19" cy="24" r="5" stroke="white" stroke-width="2"/>
+          <path d="M6 38l12-10 10 8 8-6 16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        ${it.price ? `<div class="pcard-label">${esc(it.price)}</div>` : ''}
       </div>
       <div class="pcard-body">
-        <div class="pcard-name">${it.name}</div>
+        ${it.cat ? `<div class="pcard-cat">${esc(it.cat)}</div>` : ''}
+        <div class="pcard-name">${esc(it.name)}</div>
+        ${it.desc ? `<div class="pcard-desc">${esc(it.desc)}</div>` : ''}
       </div>
       <div class="pcard-foot">
-        <div class="pcard-price">${it.price || ''}</div>
+        <div class="pcard-price">${it.price ? esc(it.price) : '<small>Ver preço</small>'}</div>
+        <div class="btn-outline">Ver na Amazon →</div>
       </div>
-    </a>
-  `).join('');
+    </a>`
+  ).join('');
 }
 
-/* ================= ADMIN ================= */
+function imgPlaceholderSVG(s) {
+  return `<svg width="${s}" height="${s}" viewBox="0 0 80 80" fill="none" style="opacity:.1">
+    <rect x="8" y="14" width="64" height="52" rx="6" stroke="white" stroke-width="2"/>
+    <circle cx="28" cy="34" r="8" stroke="white" stroke-width="2"/>
+    <path d="M8 60l18-14 16 12 12-10 26 20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
 
-function openPwModal() {
-  const senha = prompt("Senha admin:");
-  if (senha === ADMIN_PASSWORD) {
-    authed = true;
-    openAdminModal();
+function setCategory(c) { activeCategory = c; render(); }
+
+/* ============================================================
+   ADMIN MODAL
+   ============================================================ */
+function renderAdminList() {
+  const el = document.getElementById('admin-prod-list');
+  if (items.length === 0) {
+    el.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">
+      Nenhum produto cadastrado ainda.<br><br>
+      <button class="btn-primary" style="margin:0 auto" onclick="switchTab('new')">+ Adicionar primeiro produto</button>
+    </div>`;
+    return;
+  }
+  el.innerHTML = `<div class="prod-list">${items.map(it => `
+    <div class="prod-item" onclick="editItem('${esc(it.id)}')">
+      <div class="prod-item-img">
+        ${it.img ? `<img src="${esc(it.img)}" alt="" onerror="this.style.display='none'"/>` : ''}
+      </div>
+      <div class="prod-item-info">
+        <div class="prod-item-name">${esc(it.name)}</div>
+        <div class="prod-item-cat">${esc(it.cat||'Sem categoria')}${it.feat?' · ⭐ Destaque':''}</div>
+      </div>
+      <button class="btn-icon" title="Editar">
+        <svg viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+      </button>
+    </div>`).join('')}
+  </div>`;
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-list').className = 'tab-panel' + (tab==='list'?' active':'');
+  document.getElementById('tab-new').className = 'tab-panel' + (tab==='new'?' active':'');
+  document.getElementById('tab-list-btn').className = 'atab' + (tab==='list'?' active':'');
+  document.getElementById('tab-new-btn').className = 'atab' + (tab==='new'?' active':'');
+  const btnDel = document.getElementById('btn-del-item');
+  const btnSave = document.getElementById('btn-save-item');
+  if (tab === 'new') {
+    document.getElementById('admin-modal-title').textContent = editId ? 'Editar produto' : 'Novo produto';
+    btnDel.style.display = editId ? 'block' : 'none';
+    btnSave.style.display = 'block';
   } else {
-    alert("Senha incorreta");
+    document.getElementById('admin-modal-title').textContent = 'Gerenciar produtos';
+    btnDel.style.display = 'none';
+    btnSave.style.display = 'none';
+    editId = null;
+    renderAdminList();
   }
 }
 
 function openAdminModal() {
+  editId = null;
+  clearForm();
   renderAdminList();
-  document.getElementById("admin-overlay").classList.add("open");
+  switchTab('list');
+  document.getElementById('tab-new-btn').textContent = '+ Adicionar';
+  document.getElementById('admin-overlay').classList.add('open');
 }
 
 function closeAdminModal() {
-  document.getElementById("admin-overlay").classList.remove("open");
+  document.getElementById('admin-overlay').classList.remove('open');
+  editId = null;
 }
 
-function renderAdminList() {
-  const el = document.getElementById("admin-prod-list");
-
-  if (items.length === 0) {
-    el.innerHTML = "Nenhum produto";
-    return;
-  }
-
-  el.innerHTML = items.map(it => `
-    <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-      <span>${it.name}</span>
-      <div>
-        <button onclick="editItem('${it.id}')">Editar</button>
-        <button onclick="deleteItem('${it.id}')">Excluir</button>
-      </div>
-    </div>
-  `).join('');
+function clearForm() {
+  ['f-name','f-cat','f-price','f-desc','f-img','f-link'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-feat').checked = false;
 }
 
 function editItem(id) {
-  const it = items.find(x => x.id === id);
-  if (!it) return;
-
   editId = id;
-
-  document.getElementById('f-name').value = it.name;
-  document.getElementById('f-link').value = it.link;
-  document.getElementById('f-cat').value = it.cat || '';
-  document.getElementById('f-price').value = it.price || '';
-  document.getElementById('f-desc').value = it.desc || '';
-  document.getElementById('f-img').value = it.img || '';
+  const it = items.find(x=>x.id===id);
+  if (!it) return;
+  document.getElementById('f-name').value = it.name||'';
+  document.getElementById('f-cat').value = it.cat||'';
+  document.getElementById('f-price').value = it.price||'';
+  document.getElementById('f-desc').value = it.desc||'';
+  document.getElementById('f-img').value = it.img||'';
+  document.getElementById('f-link').value = it.link||'';
   document.getElementById('f-feat').checked = !!it.feat;
+  document.getElementById('tab-new-btn').textContent = '✏️ Editar';
+  switchTab('new');
 }
 
-function deleteItem(id) {
-  if (!confirm("Excluir produto?")) return;
-
-  items = items.filter(x => x.id !== id);
-  saveItems();
-  render();
-  renderAdminList();
-}
-
-function saveItem() {
+async function saveItem() {
+  const name = document.getElementById('f-name').value.trim();
+  const link = document.getElementById('f-link').value.trim();
+  if (!name) { toast('⚠️ Informe o nome do produto'); return; }
+  if (!link) { toast('⚠️ Informe o link de associado'); return; }
+  const feat = document.getElementById('f-feat').checked;
+  if (feat) items = items.map(i => ({...i, feat:false}));
   const item = {
     id: editId || Date.now().toString(),
-    name: document.getElementById('f-name').value,
-    link: document.getElementById('f-link').value,
-    cat: document.getElementById('f-cat').value,
-    price: document.getElementById('f-price').value,
-    desc: document.getElementById('f-desc').value,
-    img: document.getElementById('f-img').value,
-    feat: document.getElementById('f-feat').checked
+    name, link,
+    cat: document.getElementById('f-cat').value.trim(),
+    price: document.getElementById('f-price').value.trim(),
+    desc: document.getElementById('f-desc').value.trim(),
+    img: document.getElementById('f-img').value.trim(),
+    feat,
+    created: editId ? (items.find(x=>x.id===editId)||{}).created : Date.now()
   };
-
-  if (!item.name || !item.link) {
-    alert("Preencha nome e link");
-    return;
-  }
-
-  if (editId) {
-    items = items.map(x => x.id === editId ? item : x);
-  } else {
-    items.push(item);
-  }
-
+  if (editId) { items = items.map(x=>x.id===editId?item:x); }
+  else { items.push(item); }
   saveItems();
-
-  editId = null;
-
   render();
-  renderAdminList();
-
-  alert("Salvo!");
+  clearForm();
+  editId = null;
+  switchTab('list');
+  document.getElementById('tab-new-btn').textContent = '+ Adicionar';
+  toast(editId ? '✅ Produto atualizado!' : '✅ Produto adicionado com sucesso!');
 }
 
-/* ================= INIT ================= */
+function deleteItem() {
+  if (!editId) return;
+  if (!confirm('Tem certeza que deseja excluir este produto?')) return;
+  items = items.filter(x => x.id !== editId);
+  saveItems();
+  render();
+  editId = null;
+  switchTab('list');
+  toast('🗑️ Produto removido');
+}
 
+/* ============================================================
+   PASSWORD MODAL
+   ============================================================ */
+function openPwModal() {
+  if (authed) { openAdminModal(); return; }
+  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-error').classList.remove('show');
+  document.getElementById('pw-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('pw-input').focus(), 100);
+}
+
+function closePwModal() {
+  document.getElementById('pw-overlay').classList.remove('open');
+}
+
+function checkPw() {
+  const val = document.getElementById('pw-input').value;
+  if (val === ADMIN_PASSWORD) {
+    authed = true;
+    closePwModal();
+    openAdminModal();
+  } else {
+    document.getElementById('pw-error').classList.add('show');
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+/* ============================================================
+   UTILS
+   ============================================================ */
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// close overlays on bg click
+document.getElementById('pw-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closePwModal();
+});
+document.getElementById('admin-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAdminModal();
+});
+
+// enter key in form fields
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closePwModal();
+    closeAdminModal();
+  }
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
 loadItems();
 render();
-};
-}
-})
 </script>
 </body>
 </html>
