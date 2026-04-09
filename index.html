@@ -819,6 +819,57 @@ function esc(s) {
 loadItems().then(() => {
   render();
 });
+  /* ================= ADMIN ================= */
+
+function openPwModal() {
+  if (authed) {
+    openAdminModal();
+    return;
+  }
+  document.getElementById('pw-overlay').classList.add('open');
+}
+
+function closePwModal() {
+  document.getElementById('pw-overlay').classList.remove('open');
+}
+
+function checkPw() {
+  const val = document.getElementById('pw-input').value;
+
+  if (val === ADMIN_PASSWORD) {
+    authed = true;
+    closePwModal();
+    openAdminModal();
+  } else {
+    alert("Senha incorreta");
+  }
+}
+
+function openAdminModal() {
+  document.getElementById('admin-overlay').classList.add('open');
+}
+
+function closeAdminModal() {
+  document.getElementById('admin-overlay').classList.remove('open');
+}
+
+/* ================= FORM ================= */
+
+function clearForm() {
+  ['f-name','f-cat','f-price','f-desc','f-img','f-link']
+    .forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-feat').checked = false;
+}
+
+/* ================= UI EXTRA ================= */
+
+document.getElementById('pw-overlay')?.addEventListener('click', function(e) {
+  if (e.target === this) closePwModal();
+});
+
+document.getElementById('admin-overlay')?.addEventListener('click', function(e) {
+  if (e.target === this) closeAdminModal();
+});
 </script>
 </body>
 </html>
