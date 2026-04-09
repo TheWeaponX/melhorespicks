@@ -1,43 +1,74 @@
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  const BIN_ID = process.env.JSONBIN_BIN_ID;
+  const API_KEY = process.env.JSONBIN_API_KEY;
 
-  const BIN_ID = "69d6efdfaaba882197dab9b5";
-  const API_KEY = process.env.JSONBIN_KEY;
+  const url = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-  // Adicionar produto
-  if (req.method === "POST") {
-    const novoProduto = req.body;
-
-    const resposta = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-      headers: {
-        "X-Master-Key": API_KEY
-      }
+  // 🔹 GET
+  if (req.method === "GET") {
+    const r = await fetch(url, {
+      headers: { "X-Master-Key": API_KEY }
     });
+    const data = await r.json();
 
-    const data = await resposta.json();
+    return res.status(200).json({
+      produtos: data.record.produtos || []
+    });
+  }
 
-    data.record.produtos.push(novoProduto);
+  // 🔹 POST (add ou edit)
+  if (req.method === "POST") {
+    const r = await fetch(url, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    const data = await r.json();
+    let produtos = data.record.produtos || [];
 
-    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+    const newItem = req.body;
+
+    const index = produtos.findIndex(p => p.id === newItem.id);
+
+    if (index !== -1) {
+      produtos[index] = newItem; // EDITAR
+    } else {
+      produtos.push(newItem); // NOVO
+    }
+
+    await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "X-Master-Key": API_KEY
       },
-      body: JSON.stringify(data.record)
+      body: JSON.stringify({ produtos })
     });
 
-    return res.status(200).json({ sucesso: true });
+    return res.status(200).json({ success: true });
   }
 
-  // Buscar produtos
-  const resposta = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-    headers: {
-      "X-Master-Key": API_KEY
-    }
-  });
+  // 🔹 DELETE
+  if (req.method === "DELETE") {
+    const r = await fetch(url, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    const data = await r.json();
+    let produtos = data.record.produtos || [];
 
-  const data = await resposta.json();
+    const { id } = req.body;
 
-  return res.status(200).json(data.record);
+    produtos = produtos.filter(p => p.id !== id);
+
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY
+      },
+      body: JSON.stringify({ produtos })
+    });
+
+    return res.status(200).json({ success: true });
+  }
+
+  return res.status(405).end();
 }
