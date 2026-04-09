@@ -18,20 +18,20 @@ export default async function handler(req, res) {
 
   // 🔹 POST (add ou edit)
   if (req.method === "POST") {
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+
     const r = await fetch(url, {
       headers: { "X-Master-Key": API_KEY }
     });
     const data = await r.json();
     let produtos = data.record.produtos || [];
 
-    const newItem = req.body;
-
-    const index = produtos.findIndex(p => p.id === newItem.id);
+    const index = produtos.findIndex(p => p.id === body.id);
 
     if (index !== -1) {
-      produtos[index] = newItem; // EDITAR
+      produtos[index] = body;
     } else {
-      produtos.push(newItem); // NOVO
+      produtos.push(body);
     }
 
     await fetch(url, {
@@ -48,15 +48,15 @@ export default async function handler(req, res) {
 
   // 🔹 DELETE
   if (req.method === "DELETE") {
+    const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+
     const r = await fetch(url, {
       headers: { "X-Master-Key": API_KEY }
     });
     const data = await r.json();
     let produtos = data.record.produtos || [];
 
-    const { id } = req.body;
-
-    produtos = produtos.filter(p => p.id !== id);
+    produtos = produtos.filter(p => p.id !== body.id);
 
     await fetch(url, {
       method: "PUT",
