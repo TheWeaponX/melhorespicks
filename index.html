@@ -706,6 +706,7 @@ footer{
 
 <script>
 const ADMIN_PASSWORD = "farenheit";
+const API_URL = "https://melhorespicks.vercel.app/api/produtos";
 
 let items = [];
 let editId = null;
@@ -715,23 +716,23 @@ let authed = false;
 /* ================= API ================= */
 
 async function loadItems() {
-  const res = await fetch("https://melhorespicks.vercel.app/api/produtos");
+  const res = await fetch(API_URL);
   const data = await res.json();
   items = data.produtos || [];
 }
 
-async function saveToAPI(item) {
-  await fetch("https://melhorespicks.vercel.app/api/produtos", {
+async function createOrUpdateItem(item) {
+  await fetch(API_URL, {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(item)
   });
 }
 
-async function deleteFromAPI(id) {
-  await fetch("https://melhorespicks.vercel.app/api/produtos", {
+async function deleteItemAPI(id) {
+  await fetch(API_URL, {
     method: "DELETE",
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id })
   });
 }
@@ -742,6 +743,11 @@ function render() {
   document.getElementById('ano').textContent = new Date().getFullYear();
 
   const grid = document.getElementById('grid');
+
+  if (items.length === 0) {
+    grid.innerHTML = `<p style="opacity:.6">Nenhum produto ainda</p>`;
+    return;
+  }
 
   grid.innerHTML = items.map(it => `
     <a class="pcard" href="${it.link}" target="_blank">
@@ -756,55 +762,47 @@ function render() {
       </div>
     </a>
   `).join('');
-
-  renderAdminList();
 }
 
 /* ================= ADMIN ================= */
 
 function openPwModal() {
-  if (authed) return openAdminModal();
-  document.getElementById('pw-overlay').classList.add('open');
-}
-
-function closePwModal() {
-  document.getElementById('pw-overlay').classList.remove('open');
-}
-
-function checkPw() {
-  const val = document.getElementById('pw-input').value;
-  if (val === ADMIN_PASSWORD) {
+  const senha = prompt("Senha admin:");
+  if (senha === ADMIN_PASSWORD) {
     authed = true;
-    closePwModal();
     openAdminModal();
   } else {
-    alert("Senha incorreta");
+    alert("Senha errada");
   }
 }
 
 function openAdminModal() {
-  document.getElementById('admin-overlay').classList.add('open');
+  renderAdminList();
+  document.getElementById("admin-overlay").classList.add("open");
 }
 
 function closeAdminModal() {
-  document.getElementById('admin-overlay').classList.remove('open');
+  document.getElementById("admin-overlay").classList.remove("open");
 }
 
-/* ================= LISTA ADMIN ================= */
-
 function renderAdminList() {
-  const el = document.getElementById('admin-prod-list');
+  const el = document.getElementById("admin-prod-list");
+
+  if (items.length === 0) {
+    el.innerHTML = "Nenhum produto";
+    return;
+  }
 
   el.innerHTML = items.map(it => `
-    <div class="prod-item">
+    <div style="display:flex;justify-content:space-between;margin-bottom:10px">
       <span>${it.name}</span>
-      <button onclick="editItem('${it.id}')">✏️</button>
-      <button onclick="deleteItem('${it.id}')">🗑️</button>
+      <div>
+        <button onclick="editItem('${it.id}')">Editar</button>
+        <button onclick="deleteItem('${it.id}')">Excluir</button>
+      </div>
     </div>
   `).join('');
 }
-
-/* ================= CRUD ================= */
 
 function editItem(id) {
   const it = items.find(x => x.id === id);
@@ -818,7 +816,16 @@ function editItem(id) {
   document.getElementById('f-price').value = it.price || '';
   document.getElementById('f-desc').value = it.desc || '';
   document.getElementById('f-img').value = it.img || '';
-  document.getElementById('f-feat').checked = it.feat || false;
+  document.getElementById('f-feat').checked = !!it.feat;
+}
+
+async function deleteItem(id) {
+  if (!confirm("Excluir produto?")) return;
+
+  await deleteItemAPI(id);
+  await loadItems();
+  render();
+  renderAdminList();
 }
 
 async function saveItem() {
@@ -833,36 +840,27 @@ async function saveItem() {
     feat: document.getElementById('f-feat').checked
   };
 
-  await saveToAPI(item);
+  if (!item.name || !item.link) {
+    alert("Preencha nome e link");
+    return;
+  }
 
-  await loadItems();
-  render();
+  await createOrUpdateItem(item);
 
-  clearForm();
   editId = null;
-}
-
-async function deleteItem(id) {
-  if (!confirm("Excluir produto?")) return;
-
-  await deleteFromAPI(id);
 
   await loadItems();
   render();
-}
+  renderAdminList();
 
-/* ================= FORM ================= */
-
-function clearForm() {
-  ['f-name','f-cat','f-price','f-desc','f-img','f-link']
-    .forEach(id => document.getElementById(id).value = '');
-  document.getElementById('f-feat').checked = false;
+  alert("Salvo!");
 }
 
 /* ================= INIT ================= */
 
-loadItems().then(() => render());
-
+loadItems().then(() => {
+  render();
+});
 </script>
 </body>
 </html>
