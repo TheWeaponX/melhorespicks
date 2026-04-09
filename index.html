@@ -706,35 +706,25 @@ footer{
 
 <script>
 const ADMIN_PASSWORD = "farenheit";
-const API_URL = "https://melhorespicks.vercel.app/api/produtos";
+const SITE_NAME = "MelhoresPicks";
 
 let items = [];
 let editId = null;
 let activeCategory = 'all';
 let authed = false;
+let currentTab = 'list';
 
-/* ================= API ================= */
+/* ================= LOCAL STORAGE ================= */
 
-async function loadItems() {
-  const res = await fetch(API_URL);
-  const data = await res.json();
-  items = data.produtos || [];
+function loadItems() {
+  try {
+    const raw = localStorage.getItem('mpicks_products');
+    items = raw ? JSON.parse(raw) : [];
+  } catch(e) { items = []; }
 }
 
-async function createOrUpdateItem(item) {
-  await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(item)
-  });
-}
-
-async function deleteItemAPI(id) {
-  await fetch(API_URL, {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id })
-  });
+function saveItems() {
+  localStorage.setItem('mpicks_products', JSON.stringify(items));
 }
 
 /* ================= RENDER ================= */
@@ -772,7 +762,7 @@ function openPwModal() {
     authed = true;
     openAdminModal();
   } else {
-    alert("Senha errada");
+    alert("Senha incorreta");
   }
 }
 
@@ -819,16 +809,16 @@ function editItem(id) {
   document.getElementById('f-feat').checked = !!it.feat;
 }
 
-async function deleteItem(id) {
+function deleteItem(id) {
   if (!confirm("Excluir produto?")) return;
 
-  await deleteItemAPI(id);
-  await loadItems();
+  items = items.filter(x => x.id !== id);
+  saveItems();
   render();
   renderAdminList();
 }
 
-async function saveItem() {
+function saveItem() {
   const item = {
     id: editId || Date.now().toString(),
     name: document.getElementById('f-name').value,
@@ -845,11 +835,16 @@ async function saveItem() {
     return;
   }
 
-  await createOrUpdateItem(item);
+  if (editId) {
+    items = items.map(x => x.id === editId ? item : x);
+  } else {
+    items.push(item);
+  }
+
+  saveItems();
 
   editId = null;
 
-  await loadItems();
   render();
   renderAdminList();
 
@@ -858,28 +853,11 @@ async function saveItem() {
 
 /* ================= INIT ================= */
 
-loadItems().then(() => {
-  render();
-/* ============== ADICIONAR =============== */
-  function switchTab(tab) {
-  // simplesmente ignora aba e garante que o admin funcione
-
-    window.switchTab = function(tab) {
-  const list = document.getElementById('tab-list');
-  const form = document.getElementById('tab-new');
-
-  if (!list || !form) return;
-
-  if (tab === 'new') {
-    list.classList.remove('active');
-    form.classList.add('active');
-  } else {
-    list.classList.add('active');
-    form.classList.remove('active');
-  }
+loadItems();
+render();
 };
 }
-});
+})
 </script>
 </body>
 </html>
