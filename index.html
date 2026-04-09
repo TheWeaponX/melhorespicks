@@ -863,6 +863,21 @@ loadItems().then(() => {
 /* ============== ADICIONAR =============== */
   function switchTab(tab) {
   // simplesmente ignora aba e garante que o admin funcione
+
+    window.switchTab = function(tab) {
+  const list = document.getElementById('tab-list');
+  const form = document.getElementById('tab-new');
+
+  if (!list || !form) return;
+
+  if (tab === 'new') {
+    list.classList.remove('active');
+    form.classList.add('active');
+  } else {
+    list.classList.add('active');
+    form.classList.remove('active');
+  }
+};
 }
 });
 </script>
