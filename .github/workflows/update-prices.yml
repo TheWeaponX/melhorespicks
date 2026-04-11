@@ -13,12 +13,17 @@ jobs:
     
     steps:
       - name: 📥 Baixar código
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # ✅ Versão atualizada
       
       - name: 🔧 Configurar Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4  # ✅ Versão atualizada
         with:
-          node-version: '18'
+          node-version: '20'  # ✅ Versão LTS atual
       
       - name: 🚀 Executar atualização
         run: node atualizar-precos.js
+      
+      - name: ✅ Confirmar execução
+        run: |
+          echo "🎉 Preços atualizados com sucesso!"
+          echo "📅 $(date '+%d/%m/%Y %H:%M')"
