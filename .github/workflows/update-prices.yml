@@ -1,0 +1,24 @@
+name: Atualizar Preços Amazon
+
+on:
+  schedule:
+    # Executa todo dia às 8h (horário de Brasília = 11h UTC)
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+    # Permite executar manualmente
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Baixar código
+        uses: actions/checkout@v3
+      
+      - name: 🔧 Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: 🚀 Executar atualização
+        run: node atualizar-precos.js
