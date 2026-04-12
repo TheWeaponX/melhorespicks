@@ -242,15 +242,18 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a class="logo" href="#">
-      <div class="logo-mark">
-        <svg viewBox="0 0 20 20"><path d="M10 2L12.5 7.5H18L13.5 11L15.2 17L10 13.5L4.8 17L6.5 11L2 7.5H7.5L10 2Z"/></svg>
-      </div>
-      <div>
-        <div class="logo-text">Codex</div>
-        <div class="logo-sub">by Logos</div>
-      </div>
-    </a>
+<a class="logo" href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+  <!-- Imagem do Logo -->
+  <img src="/assets/images/logo-codex-horizontal.png" 
+       alt="Codex by Logos" 
+       style="height: 40px; width: auto; display: block;">
+  
+  <!-- Texto da Marca -->
+  <div>
+    <div class="logo-text">Codex</div>
+    <div class="logo-sub">by Logos</div>
+  </div>
+</a>
     <div class="nav-search">
       <div class="nav-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
       <input type="text" id="nav-search-input" placeholder="Buscar livros..." oninput="onSearch(this.value)"/>
