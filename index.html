@@ -555,22 +555,22 @@ function render(){
     grid.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div><div class="empty-title">${searchQuery?'Nenhum resultado encontrado':'Nenhum livro ainda'}</div><div class="empty-sub">${searchQuery?'Tente outro termo de busca':'Acesse /admin para adicionar livros'}</div></div>`;return;
   }
 
-  grid.innerHTML=visible.map(it=>{
-    const best=bestStore(it);
-   const slug = it.name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
-return`<a href="/livro?id=${it.id}&slug=${slug}" class="pcard" style="text-decoration:none;color:inherit;">
-      <div class="pcard-img">
-        ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`:''}
-        ${!it.img?ph(52):`<div class="pcard-img-placeholder" style="display:none;">${ph(52)}</div>`}
-      </div>
-      <div class="pcard-body">
-        ${it.cat?`<div class="pcard-cat">${esc(it.cat)}</div>`:''}
-        <div class="pcard-name">${highlight(it.name||'',searchQuery)}</div>
-        ${it.desc?`<div class="pcard-desc">${highlight(it.desc,searchQuery)}</div>`:''}
-      </div>
-      <div class="prices-section">${priceRows(it,best,false)}</div>
-    </div>`;
-  }).join('');
+grid.innerHTML = visible.map(it => {
+  const best = bestStore(it);
+  const slug = it.name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
+  return `<a href="/livro?id=${it.id}&slug=${slug}" class="pcard" style="text-decoration:none;color:inherit;display:block;">
+    <div class="pcard-img">
+      ${it.img ? `<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : ''}
+      ${!it.img ? ph(52) : `<div class="pcard-img-placeholder" style="display:none;">${ph(52)}</div>`}
+    </div>
+    <div class="pcard-body">
+      ${it.cat ? `<div class="pcard-cat">${esc(it.cat)}</div>` : ''}
+      <div class="pcard-name">${highlight(it.name || '', searchQuery)}</div>
+      ${it.desc ? `<div class="pcard-desc">${highlight(it.desc, searchQuery)}</div>` : ''}
+    </div>
+    <div class="prices-section">${priceRows(it, best, false)}</div>
+  </a>`;
+}).join('');
 }
 
 function priceRows(item,best){
