@@ -557,7 +557,8 @@ function render(){
 
   grid.innerHTML=visible.map(it=>{
     const best=bestStore(it);
-    return`<div class="pcard" onclick="showBookPage('${it.id}')">
+   const slug = it.name.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
+return`<a href="/livro?id=${it.id}&slug=${slug}" class="pcard" style="text-decoration:none;color:inherit;">
       <div class="pcard-img">
         ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`:''}
         ${!it.img?ph(52):`<div class="pcard-img-placeholder" style="display:none;">${ph(52)}</div>`}
