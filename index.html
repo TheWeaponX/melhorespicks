@@ -523,7 +523,8 @@ function render(){
     document.getElementById('featured-card').innerHTML=`
       <div class="featured-wrap">
         <div class="feat-img">
-          ${feat.img?`<img src="${esc(feat.img)}" alt="${esc(feat.name)}" onerror="this.style.display='none'"/>`:ph(80)}
+          ${feat.img?`<img src="${esc(feat.img)}" alt="${esc(feat.name)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>`:''}
+          ${!feat.img?ph(80):`<div class="pcard-img-placeholder" style="display:none;">${ph(80)}</div>`}
           <div class="feat-badge">⭐ Melhor oferta</div>
         </div>
         <div class="feat-body">
@@ -570,8 +571,8 @@ function render(){
     const best=bestStore(it);
     return`<div class="pcard">
       <div class="pcard-img">
-        ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" onerror="this.style.display='none'"/>`:''}
-        ${ph(52)}
+        ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>`:''}
+        ${!it.img?ph(52):`<div class="pcard-img-placeholder" style="display:none;">${ph(52)}</div>`}
       </div>
       <div class="pcard-body">
         ${it.cat?`<div class="pcard-cat">${esc(it.cat)}</div>`:''}
