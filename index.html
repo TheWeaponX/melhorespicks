@@ -782,21 +782,36 @@ function render(){
     </div>`;return;
   }
 
-  grid.innerHTML=visible.map(it=>{
-    const best=bestStore(it);
-    return `<div class="pcard" onclick="openBookModal('${it.id}')" style="cursor:pointer;">
-      <div class="pcard-img">
-        ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>`:''}
-        ${!it.img?ph(52):`<div class="pcard-img-placeholder" style="display:none;">${ph(52)}</div>`}
-      </div>
-      <div class="pcard-body">
-        ${it.cat?`<div class="pcard-cat">${esc(it.cat)}</div>`:''}
-        <div class="pcard-name">${highlight(it.name||'',searchQuery)}</div>
-        ${it.desc?`<div class="pcard-desc">${highlight(it.desc,searchQuery)}</div>`:''}
-      </div>
-      <div class="prices-section">${priceRows(it,best,false)}</div>
-    </div>`;
-  }).join('');
+grid.innerHTML = visible.map(function(it) {
+  var best = bestStore(it);
+  var imgHtml = '';
+  if (it.img) {
+    imgHtml = '<img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" loading="lazy" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">';
+  }
+  var placeholderHtml = '';
+  if (!it.img) {
+    placeholderHtml = ph(52);
+  } else {
+    placeholderHtml = '<div class="pcard-img-placeholder" style="display:none;">' + ph(52) + '</div>';
+  }
+  
+  var catHtml = it.cat ? '<div class="pcard-cat">' + esc(it.cat) + '</div>' : '';
+  var nameHtml = '<div class="pcard-name">' + highlight(it.name || '', searchQuery) + '</div>';
+  var descHtml = it.desc ? '<div class="pcard-desc">' + highlight(it.desc, searchQuery) + '</div>' : '';
+  
+  return '<div class="pcard" onclick="openBookModal(\'' + it.id + '\')" style="cursor:pointer;">' +
+    '<div class="pcard-img">' +
+      imgHtml +
+      placeholderHtml +
+    '</div>' +
+    '<div class="pcard-body">' +
+      catHtml +
+      nameHtml +
+      descHtml +
+    '</div>' +
+    '<div class="prices-section">' + priceRows(it, best, false) + '</div>' +
+  '</div>';
+}).join('');
 }
 
 function priceRows(item,best,big){
