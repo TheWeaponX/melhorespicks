@@ -439,7 +439,6 @@ async function loadFromDB(){
     items=Array.isArray(data.record)?data.record:[];
   }catch(e){items=[];toast('⚠️ Erro ao carregar livros.');}
   render();
-  handleBookRoute();
 }
 async function saveToDB(){
   document.getElementById('saving-indicator').classList.add('show');
