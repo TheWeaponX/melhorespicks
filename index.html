@@ -235,6 +235,145 @@ mark{background:rgba(139,92,246,0.25);color:var(--primary);border-radius:2px;pad
 }
 @keyframes fadeinup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero{animation:fadeinup .5s ease both}
+ /* MODAL (POPUP) DO LIVRO */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: var(--card);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius);
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.25s ease;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.modal-book-container {
+  padding: 2rem;
+}
+
+.modal-book-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 600px) {
+  .modal-book-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modal-book-cover img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-book-category {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.modal-book-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.modal-book-author {
+  font-size: 1rem;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.modal-book-description {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.modal-book-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-book-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  aspect-ratio: 3/4;
+  opacity: 0.5;
+}
 </style>
 </head>
 <body>
@@ -243,6 +382,81 @@ mark{background:rgba(139,92,246,0.25);color:var(--primary);border-radius:2px;pad
 const ADMIN_PASSWORD = "farenheit";
 const JSONBIN_KEY    = "$2a$10$N.ce/SYQr6ExcinOFXZXdeMqNE.bS/nlERJdY7tYEErCkP7kfcHhK";
 const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
+
+ /* ===== MODAL DO LIVRO ===== */
+function openBookModal(bookId) {
+  const book = items.find(i => i.id === bookId);
+  if (!book) return;
+  
+  const modal = document.getElementById('book-modal');
+  const container = document.getElementById('modal-book-content');
+  
+  // Formatar preços
+  const best = bestStore(book);
+  const stores = [
+    { key: 'amz', label: 'Amazon', price: book.amzPrice, link: book.amzLink },
+    { key: 'shp', label: 'Shopee', price: book.shpPrice, link: book.shpLink },
+    { key: 'meli', label: 'Mercado Livre', price: book.meliPrice, link: book.meliLink }
+  ];
+  
+  let pricesHtml = '';
+  for (const s of stores) {
+    if (!s.link && !s.price) continue;
+    const isBest = s.key === best;
+    if (s.link) {
+      pricesHtml += `<a class="price-row ${s.key}${isBest ? ' best-price' : ''}" href="${esc(s.link)}" target="_blank" rel="nofollow sponsored">
+        <span class="store-logo ${s.key}">${s.label}</span>
+        <span class="price-val">${s.price ? esc(s.price) : 'Ver preço'}</span>
+        ${isBest ? '<span class="best-tag">Menor preço</span>' : ''}
+        <span class="price-arrow">→</span>
+      </a>`;
+    } else if (s.price) {
+      pricesHtml += `<div class="price-row ${s.key}" style="opacity:.55;cursor:default">
+        <span class="store-logo ${s.key}">${s.label}</span>
+        <span class="price-val">${esc(s.price)}</span>
+      </div>`;
+    }
+  }
+  
+  // Montar conteúdo do modal
+  const html = `
+    <div class="modal-book-grid">
+      <div class="modal-book-cover">
+        ${book.img ? 
+          `<img src="${esc(book.img)}" alt="${esc(book.name)}" onerror="this.parentElement.innerHTML='<div class=\'modal-book-placeholder\'>${ph(80)}</div>'">` : 
+          `<div class="modal-book-placeholder">${ph(80)}</div>`
+        }
+      </div>
+      <div class="modal-book-info">
+        ${book.cat ? `<div class="modal-book-category">${esc(book.cat)}</div>` : ''}
+        <h2 class="modal-book-title">${esc(book.name)}</h2>
+        ${book.author ? `<div class="modal-book-author">${esc(book.author)}</div>` : ''}
+        <p class="modal-book-description">${esc(book.desc || 'Nenhuma descrição disponível.')}</p>
+        <div class="modal-book-prices">
+          ${pricesHtml || '<div class="no-price">Nenhum link cadastrado</div>'}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  container.innerHTML = html;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Bloqueia scroll do fundo
+}
+
+function closeBookModal() {
+  const modal = document.getElementById('book-modal');
+  modal.classList.remove('active');
+  document.body.style.overflow = ''; // Libera scroll
+}
+
+// Fechar modal com tecla ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeBookModal();
+  }
+});
+ 
 </script>
 
 <!-- NAV -->
@@ -570,7 +784,7 @@ function render(){
 
   grid.innerHTML=visible.map(it=>{
     const best=bestStore(it);
-    return`<div class="pcard">
+    return `<div class="pcard" onclick="openBookModal('${it.id}')" style="cursor:pointer;">
       <div class="pcard-img">
         ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>`:''}
         ${!it.img?ph(52):`<div class="pcard-img-placeholder" style="display:none;">${ph(52)}</div>`}
@@ -773,6 +987,19 @@ window.addEventListener('hashchange',checkHash);
 /* ===== INIT ===== */
 document.getElementById('ano').textContent=new Date().getFullYear();
 loadFromDB().then(checkHash);
+
+<!-- MODAL DO LIVRO (Popup) -->
+<div class="modal-overlay" id="book-modal" onclick="closeBookModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeBookModal()">&times;</button>
+    
+    <div class="modal-book-container" id="modal-book-content">
+      <!-- O conteúdo será preenchido via JavaScript -->
+      <div style="text-align:center;padding:2rem;">Carregando...</div>
+    </div>
+  </div>
+</div>
+ 
 </script>
 </body>
 </html>
