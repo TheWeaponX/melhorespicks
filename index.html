@@ -627,7 +627,7 @@ function renderAdminList(){
   }
   el.innerHTML=`<div class="prod-list">${items.map(it=>`
     <div class="prod-item" onclick="editItem('${esc(it.id)}')">
-      <div class="prod-item-img">${it.img?`<img src="${esc(it.img)}" alt="" onerror="this.style.display='none'"/>`:''}</div>
+      <div class="prod-item-img">${it.img?`<img src="${esc(it.img)}" alt="" loading="lazy" onerror="this.style.display='none'"/>`:''}</div>
       <div class="prod-item-info">
         <div class="prod-item-name">${esc(it.name)}</div>
         <div class="prod-item-cat">${esc(it.cat||'Sem categoria')}${it.feat?' · ⭐':''}${it.asin?' · 🔗 ASIN':''}</div>
