@@ -29,11 +29,17 @@ img{display:block}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--subtle);border-radius:3px}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:#10041a);backdrop-filter:blur(20px);border-bottom:1px solid #1b042e)}
 nav{position:sticky;top:0;z-index:100;background:#10041a;backdrop-filter:blur(20px);border-bottom:1px solid #1b042e}
 .nav-inner{max-width:1180px;margin:0 auto;padding:0 1.5rem;height:68px;display:flex;align-items:center;gap:1.5rem}
 .logo{display:flex;align-items:center;gap:11px;flex-shrink:0;text-decoration:none}
+.logo-mark{width:36px;height:36px;background:var(--gold);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.logo-mark svg{width:20px;height:20px;fill:#3d2500}
 .logo-img{width:36px;height:36px;object-fit:contain;flex-shrink:0}
 .logo-text{font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;color:var(--text);line-height:1}
+.logo-text em{color:var(--gold);font-style:normal}
 .logo-sub{font-size:11px;color:var(--muted);margin-top:2px;font-weight:400}
 .nav-search{flex:1;max-width:400px;position:relative}
 .nav-search input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:99px;color:var(--text);padding:9px 16px 9px 40px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .18s}
@@ -46,6 +52,8 @@ nav{position:sticky;top:0;z-index:100;background:#10041a;backdrop-filter:blur(20
 .cat-btn{flex-shrink:0;padding:6px 14px;border-radius:99px;font-size:13px;font-weight:500;border:1px solid rgba(255,255,255,0.08);color:var(--muted);background:transparent;transition:all .18s;white-space:nowrap}
 .cat-btn:hover{border-color:var(--gold-border);color:var(--text)}
 .cat-btn.active{background:var(--gold);color:#3d2500;border-color:var(--gold);font-weight:600}
+
+/* HERO */
 .hero{max-width:1180px;margin:0 auto;padding:5rem 1.5rem 3rem;text-align:center}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-glow);border:1px solid var(--gold-border);border-radius:99px;padding:5px 14px;font-size:12px;color:var(--gold);font-weight:500;letter-spacing:.3px;margin-bottom:1.25rem}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
@@ -68,12 +76,16 @@ nav{position:sticky;top:0;z-index:100;background:#10041a;backdrop-filter:blur(20
 .hero-stats{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,0.06)}
 .stat-n{font-family:'Playfair Display',Georgia,serif;font-size:2rem;font-weight:800;color:var(--gold);display:block}
 .stat-l{font-size:12px;color:var(--muted);font-weight:400}
+
+/* SECTION */
 .section{max-width:1180px;margin:0 auto;padding:0 1.5rem 4rem}
 .section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
 .section-eyebrow{font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
 .section-title{font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;font-weight:800}
 .results-count{font-size:13px;color:var(--muted)}
 .divider{height:1px;background:linear-gradient(90deg,rgba(240,169,58,.3),transparent);margin:0 auto 3.5rem;max-width:1180px;padding:0 1.5rem}
+
+/* FEATURED */
 .featured-wrap{background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:20px;overflow:hidden;display:grid;grid-template-columns:380px 1fr;min-height:340px;transition:border-color .2s,transform .25s}
 .featured-wrap:hover{border-color:var(--gold-border);transform:translateY(-2px)}
 @media(max-width:860px){.featured-wrap{grid-template-columns:1fr}}
@@ -86,6 +98,8 @@ nav{position:sticky;top:0;z-index:100;background:#10041a;backdrop-filter:blur(20
 .feat-name{font-family:'Playfair Display',Georgia,serif;font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:800;line-height:1.2;margin-bottom:.75rem}
 .feat-desc{font-size:.88rem;color:var(--muted);line-height:1.65;margin-bottom:1.5rem;flex:1;font-weight:300}
 .feat-prices{display:flex;flex-direction:column;gap:8px}
+
+/* PRODUCT GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
 .pcard{background:var(--card);border:1px solid rgba(255,255,255,0.07);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .25s,background .2s}
 .pcard:hover{border-color:var(--gold-border);transform:translateY(-4px);background:var(--card-hover)}
@@ -98,6 +112,8 @@ nav{position:sticky;top:0;z-index:100;background:#10041a;backdrop-filter:blur(20
 .pcard-name{font-family:'Playfair Display',Georgia,serif;font-size:.98rem;font-weight:700;line-height:1.3}
 .pcard-desc{font-size:.8rem;color:var(--muted);line-height:1.5;font-weight:300;margin-bottom:.4rem}
 .prices-section{padding:.8rem 1.2rem 1.1rem;border-top:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:7px}
+
+/* PRICE ROW */
 .price-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius-sm);border:1px solid transparent;text-decoration:none;transition:all .15s;position:relative}
 .price-row:hover{transform:translateX(2px)}
 .price-row.amz{background:var(--amz-bg);border-color:var(--amz-border)}
@@ -112,6 +128,8 @@ nav{position:sticky;top:0;z-index:100;background:#10041a;backdrop-filter:blur(20
 .best-tag{background:var(--best-bg);border:1px solid var(--best-border);color:var(--best);font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;flex-shrink:0;letter-spacing:.3px}
 .price-arrow{flex-shrink:0;opacity:.4;font-size:14px}
 .no-price{font-size:12px;color:var(--muted);font-style:italic;padding:6px 12px}
+
+/* LOADING / EMPTY */
 .loading-state{grid-column:1/-1;padding:5rem;text-align:center;color:var(--muted)}
 .spinner{width:36px;height:36px;border:3px solid rgba(240,169,58,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1rem}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -120,13 +138,21 @@ nav{position:sticky;top:0;z-index:100;background:#10041a;backdrop-filter:blur(20
 .empty-icon svg{width:28px;height:28px;stroke:var(--muted);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 .empty-title{font-family:'Playfair Display',Georgia,serif;font-size:1.2rem;font-weight:800;margin-bottom:.4rem}
 .empty-sub{font-size:.875rem;color:var(--muted);font-weight:300}
+
+/* FOOTER */
 footer{border-top:1px solid rgba(255,255,255,0.06);padding:2.5rem 1.5rem;text-align:center}
 .footer-inner{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:10px;align-items:center}
+.footer-logo{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:800}
+.footer-logo em{color:var(--gold);font-style:normal}
 .footer-logo{display:flex;align-items:center;gap:10px;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:800}
 .footer-logo img{width:24px;height:24px;object-fit:contain}
 .footer-disc{font-size:12px;color:var(--muted);max-width:580px;line-height:1.6;font-weight:300}
+
+/* OVERLAY */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
 .overlay.open{opacity:1;visibility:visible}
+
+/* PW MODAL */
 .pw-modal{background:var(--surface);border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:380px;padding:2.5rem 2rem;text-align:center;transform:scale(.96) translateY(10px);transition:transform .25s}
 .overlay.open .pw-modal{transform:scale(1) translateY(0)}
 .pw-icon{width:56px;height:56px;border-radius:50%;background:var(--gold-glow);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
@@ -141,6 +167,8 @@ footer{border-top:1px solid rgba(255,255,255,0.06);padding:2.5rem 1.5rem;text-al
 .btn-primary:hover{background:#ffc04a}
 .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--muted);border-radius:var(--radius-sm);padding:10px 18px;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .18s}
 .btn-ghost:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
+
+/* ADMIN MODAL */
 .admin-modal{background:var(--surface);border:1px solid rgba(255,255,255,0.1);border-radius:20px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;transform:scale(.96) translateY(10px);transition:transform .25s}
 .overlay.open .admin-modal{transform:scale(1) translateY(0)}
 .modal-head{padding:1.5rem 1.75rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:1}
@@ -191,7 +219,10 @@ footer{border-top:1px solid rgba(255,255,255,0.06);padding:2.5rem 1.5rem;text-al
 .saving-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite}
 .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--card);border:1px solid var(--gold-border);border-radius:var(--radius-sm);padding:12px 20px;font-size:13px;color:var(--text);z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;max-width:280px;font-weight:500}
 .toast.show{opacity:1;transform:translateY(0)}
+
+/* SEARCH HIGHLIGHT */
 mark{background:rgba(240,169,58,0.25);color:var(--gold);border-radius:2px;padding:0 2px}
+
 @media(max-width:640px){
   .nav-cats{display:none}
   .row2{grid-template-columns:1fr}
@@ -205,15 +236,21 @@ mark{background:rgba(240,169,58,0.25);color:var(--gold);border-radius:2px;paddin
 </style>
 </head>
 <body>
+
 <script>
 const ADMIN_PASSWORD = "farenheit";
 const JSONBIN_KEY    = "$2a$10$N.ce/SYQr6ExcinOFXZXdeMqNE.bS/nlERJdY7tYEErCkP7kfcHhK";
 const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
+</script>
 <\/script>
 
+<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <a class="logo" href="#">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20"><path d="M10 2L12.5 7.5H18L13.5 11L15.2 17L10 13.5L4.8 17L6.5 11L2 7.5H7.5L10 2Z"/></svg>
+      </div>
       <img class="logo-img" src="data:image/png;base64,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" alt="Codex logo"/>
       <div>
         <div class="logo-text">Codex</div>
@@ -228,6 +265,7 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
   </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="hero-badge"><div class="badge-dot"></div>Comparação em tempo real</div>
   <h1>Compare preços e encontre a <em>melhor oferta</em></h1>
@@ -237,6 +275,18 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
     <input type="text" id="hero-search-input" placeholder="O que você está procurando?" oninput="onSearch(this.value)"/>
   </div>
   <div class="stores-badges">
+    <div class="store-badge amz">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+      Amazon
+    </div>
+    <div class="store-badge shp">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+      Shopee
+    </div>
+    <div class="store-badge meli">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+      Mercado Livre
+    </div>
     <div class="store-badge amz"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Amazon</div>
     <div class="store-badge shp"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Shopee</div>
     <div class="store-badge meli"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Mercado Livre</div>
@@ -248,6 +298,7 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
   </div>
 </div>
 
+<!-- FEATURED -->
 <div id="featured-section" class="section" style="display:none">
   <div class="section-header">
     <div>
@@ -259,6 +310,7 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
 </div>
 <div class="divider" id="feat-divider" style="display:none"></div>
 
+<!-- GRID -->
 <div class="section">
   <div class="section-header">
     <div>
@@ -268,12 +320,17 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
     <div class="results-count" id="results-count"></div>
   </div>
   <div class="grid" id="grid">
+    <div class="loading-state"><div class="spinner"></div>Carregando produtos...</div>
     <div class="loading-state"><div class="spinner"></div>Carregando livros...</div>
   </div>
 </div>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
+    <div class="footer-logo">Codex</div>
+    <div class="logo-sub">by Logos</div>
+    <p class="footer-disc">Como Associado Amazon e parceiro das demais lojas, posso ganhar comissões em compras qualificadas. Os preços exibidos são atualizados manualmente e podem variar. © <span id="ano"></span> MelhoresPicks.</p>
     <div class="footer-logo">
       <img src="data:image/png;base64,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" alt="Codex"/>
       Codex <span style="color:var(--muted);font-size:13px;font-family:'DM Sans',sans-serif;font-weight:400">by Logos</span>
@@ -282,8 +339,12 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
   </div>
 </footer>
 
+<!-- PW MODAL -->
 <div class="overlay" id="pw-overlay">
   <div class="pw-modal">
+    <div class="pw-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 015 5v2h1a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2v-9a2 2 0 012-2h1V6a5 5 0 015-5zm0 12a2 2 0 100 4 2 2 0 000-4zm0-10a3 3 0 00-3 3v2h6V6a3 3 0 00-3-3z"/></svg>
+    </div>
     <div class="pw-icon"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 015 5v2h1a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2v-9a2 2 0 012-2h1V6a5 5 0 015-5zm0 12a2 2 0 100 4 2 2 0 000-4zm0-10a3 3 0 00-3 3v2h6V6a3 3 0 00-3-3z"/></svg></div>
     <div class="pw-title">Painel administrativo</div>
     <p class="pw-sub">Digite a senha para acessar</p>
@@ -294,57 +355,102 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
   </div>
 </div>
 
+<!-- ADMIN MODAL -->
 <div class="overlay" id="admin-overlay">
   <div class="admin-modal">
     <div class="modal-head">
+      <h3 id="admin-modal-title">Gerenciar produtos</h3>
       <h3 id="admin-modal-title">Gerenciar livros</h3>
       <div style="display:flex;align-items:center;gap:10px">
         <div class="saving-indicator" id="saving-indicator"><div class="saving-dot"></div>Salvando...</div>
+        <button class="mclose" onclick="closeAdminModal()">×</button>
         <button class="mclose" onclick="closeAdminModal()">&#215;</button>
       </div>
     </div>
     <div class="modal-body">
       <div class="admin-tabs">
+        <button class="atab active" id="tab-list-btn" onclick="switchTab('list')">📋 Produtos</button>
         <button class="atab active" id="tab-list-btn" onclick="switchTab('list')">&#128203; Livros</button>
         <button class="atab" id="tab-new-btn" onclick="switchTab('new')">+ Adicionar</button>
       </div>
+
+      <!-- LIST -->
+      <div class="tab-panel active" id="tab-list">
+        <div id="admin-prod-list"></div>
+      </div>
+
+      <!-- FORM -->
       <div class="tab-panel active" id="tab-list"><div id="admin-prod-list"></div></div>
       <div class="tab-panel" id="tab-new">
         <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="mfield"><label>Nome do produto *</label><input id="f-name" placeholder="Ex: Tênis Nike Air Max 270"/></div>
           <div class="mfield"><label>Nome do livro *</label><input id="f-name" placeholder="Ex: O Senhor dos Aneis"/></div>
           <div class="row2">
+            <div class="mfield"><label>Categoria *</label><input id="f-cat" placeholder="Ex: Calçados"/></div>
             <div class="mfield"><label>Categoria *</label><input id="f-cat" placeholder="Ex: Fantasia"/></div>
             <div class="mfield"><label>URL da imagem</label><input id="f-img" placeholder="https://..."/></div>
           </div>
+          <div class="mfield"><label>Descrição</label><textarea id="f-desc" placeholder="Por que você recomenda? Principais características..."></textarea></div>
+
+          <!-- AMAZON -->
           <div class="mfield"><label>Descricao</label><textarea id="f-desc" placeholder="Sinopse, autor, por que recomendar..."></textarea></div>
           <div class="store-section">
+            <div class="store-section-title amz">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+              Amazon
+            </div>
+            
+            <!-- NOVO CAMPO: ASIN -->
+            <div class="mfield">
+              <label>Código ASIN *</label>
             <div class="store-section-title amz"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Amazon</div>
             <div class="mfield" style="margin-bottom:.75rem">
               <label>Codigo ASIN</label>
               <input id="f-amz-asin" placeholder="Ex: 8551005197"/>
+              <small style="color:var(--muted);font-size:11px;display:block;margin-top:4px">
+                Encontre na URL: amazon.com.br/dp/<strong style="color:var(--gold)">ASIN</strong>
+              </small>
               <small style="color:var(--muted);font-size:11px;display:block;margin-top:4px">Encontre na URL: amazon.com.br/dp/<strong style="color:var(--gold)">ASIN</strong></small>
             </div>
+            
             <div class="row2">
+              <div class="mfield"><label>Preço Amazon</label><input id="f-amz-price" placeholder="R$ 299,90"/></div>
               <div class="mfield"><label>Preco Amazon</label><input id="f-amz-price" placeholder="R$ 49,90"/></div>
               <div class="mfield"><label>Link de associado *</label><input id="f-amz-link" placeholder="https://amzn.to/..."/></div>
             </div>
           </div>
+
+          <!-- SHOPEE -->
           <div class="store-section">
+            <div class="store-section-title shp">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+              Shopee
+            </div>
             <div class="store-section-title shp"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Shopee</div>
             <div class="row2">
+              <div class="mfield"><label>Preço Shopee</label><input id="f-shp-price" placeholder="R$ 279,90"/></div>
               <div class="mfield"><label>Preco Shopee</label><input id="f-shp-price" placeholder="R$ 39,90"/></div>
               <div class="mfield"><label>Link de afiliado</label><input id="f-shp-link" placeholder="https://shope.ee/..."/></div>
             </div>
           </div>
+
+          <!-- MERCADO LIVRE -->
           <div class="store-section">
+            <div class="store-section-title meli">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+              Mercado Livre
+            </div>
             <div class="store-section-title meli"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Mercado Livre</div>
             <div class="row2">
+              <div class="mfield"><label>Preço Mercado Livre</label><input id="f-meli-price" placeholder="R$ 289,90"/></div>
               <div class="mfield"><label>Preco Mercado Livre</label><input id="f-meli-price" placeholder="R$ 44,90"/></div>
               <div class="mfield"><label>Link de afiliado</label><input id="f-meli-link" placeholder="https://mercadolivre.com.br/..."/></div>
             </div>
           </div>
+
           <label class="feat-toggle">
             <input type="checkbox" id="f-feat"/>
+            <div><span>⭐ Destacar como produto da semana</span><br><small>Aparece em destaque no topo</small></div>
             <div><span>&#11088; Destacar como livro da semana</span><br><small>Aparece em destaque no topo</small></div>
           </label>
         </div>
@@ -353,6 +459,7 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
     <div class="modal-foot">
       <button class="btn-del" id="btn-del-item" style="display:none" onclick="deleteItem()">Excluir</button>
       <button class="btn-ghost" onclick="closeAdminModal()">Fechar</button>
+      <button class="btn-save" id="btn-save-item" style="display:none" onclick="saveItem()">Salvar produto</button>
       <button class="btn-save" id="btn-save-item" style="display:none" onclick="saveItem()">Salvar</button>
     </div>
   </div>
@@ -361,13 +468,19 @@ const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
 <div class="toast" id="toast"></div>
 
 <script>
+/* ===== STATE ===== */
+let items=[], editId=null, activeCategory='all', authed=false, searchQuery='', currentTab='list';
+
+/* ===== DB ===== */
 let items=[],editId=null,activeCategory='all',authed=false,searchQuery='',currentTab='list';
 async function loadFromDB(){
   try{
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`,{headers:{'X-Master-Key':JSONBIN_KEY}});
     const res=await fetch('https://api.jsonbin.io/v3/b/'+JSONBIN_BIN_ID+'/latest',{headers:{'X-Master-Key':JSONBIN_KEY}});
     if(!res.ok)throw new Error();
     const data=await res.json();
     items=Array.isArray(data.record)?data.record:[];
+  }catch(e){items=[];toast('⚠️ Erro ao carregar produtos.');}
   }catch(e){items=[];toast('Erro ao carregar.');}
   render();
 }
@@ -376,6 +489,7 @@ async function saveToDB(){
   const btn=document.getElementById('btn-save-item');
   if(btn)btn.disabled=true;
   try{
+    const res=await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`,{
     const res=await fetch('https://api.jsonbin.io/v3/b/'+JSONBIN_BIN_ID,{
       method:'PUT',
       headers:{'Content-Type':'application/json','X-Master-Key':JSONBIN_KEY},
@@ -383,8 +497,16 @@ async function saveToDB(){
     });
     if(!res.ok)throw new Error();
     return true;
+  }catch(e){toast('❌ Erro ao salvar.');return false;}
   }catch(e){toast('Erro ao salvar.');return false;}
   finally{document.getElementById('saving-indicator').classList.remove('show');if(btn)btn.disabled=false;}
+}
+
+/* ===== PRICE UTILS ===== */
+function parsePrice(str){
+  if(!str)return null;
+  const n=parseFloat(str.replace(/[^\d,\.]/g,'').replace(',','.'));
+  return isNaN(n)?null:n;
 }
 function parsePrice(str){if(!str)return null;const n=parseFloat(str.replace(/[^\d,\.]/g,'').replace(',','.'));return isNaN(n)?null:n;}
 function bestStore(item){
@@ -396,6 +518,8 @@ function bestStore(item){
   if(!stores.length)return null;
   return stores.reduce((a,b)=>a.price<=b.price?a:b).key;
 }
+
+/* ===== SEARCH ===== */
 function onSearch(val){
   searchQuery=val.toLowerCase().trim();
   document.getElementById('nav-search-input').value=val;
@@ -406,22 +530,43 @@ function highlight(text,q){
   if(!q)return esc(text);
   const safe=esc(text);
   const safeQ=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return safe.replace(new RegExp(`(${safeQ})`,'gi'),'<mark>$1</mark>');
   return safe.replace(new RegExp('('+safeQ+')','gi'),'<mark>$1</mark>');
 }
+
+/* ===== RENDER ===== */
 function render(){
   document.getElementById('ano').textContent=new Date().getFullYear();
   const uniqueCats=[...new Set(items.map(i=>i.cat).filter(Boolean))];
   document.getElementById('stat-products').textContent=items.length;
   document.getElementById('stat-cats').textContent=uniqueCats.length;
+
+  // cats
   document.getElementById('nav-cats').innerHTML=['all',...uniqueCats].map(c=>
+    `<button class="cat-btn${c===activeCategory?' active':''}" onclick="setCategory('${esc(c)}')">${c==='all'?'Todos':esc(c)}</button>`
     '<button class="cat-btn'+(c===activeCategory?' active':'')+'" onclick="setCategory(''+esc(c)+'')">'+(c==='all'?'Todos':esc(c))+'</button>'
   ).join('');
+
+  // featured
   const feat=items.find(i=>i.feat);
   const fs=document.getElementById('featured-section');
   const fd=document.getElementById('feat-divider');
   if(feat&&!searchQuery){
     fs.style.display='block';fd.style.display='block';
     const best=bestStore(feat);
+    document.getElementById('featured-card').innerHTML=`
+      <div class="featured-wrap">
+        <div class="feat-img">
+          ${feat.img?`<img src="${esc(feat.img)}" alt="${esc(feat.name)}" onerror="this.style.display='none'"/>`:ph(80)}
+          <div class="feat-badge">⭐ Melhor oferta</div>
+        </div>
+        <div class="feat-body">
+          ${feat.cat?`<div class="feat-cat">${esc(feat.cat)}</div>`:''}
+          <div class="feat-name">${esc(feat.name)}</div>
+          <div class="feat-desc">${esc(feat.desc||'')}</div>
+          <div class="feat-prices">${priceRows(feat,best,true)}</div>
+        </div>
+      </div>`;
     document.getElementById('featured-card').innerHTML=
       '<div class="featured-wrap">'+
         '<div class="feat-img">'+
@@ -436,20 +581,58 @@ function render(){
         '</div>'+
       '</div>';
   }else{fs.style.display='none';fd.style.display='none';}
+
+  // filter
   let visible=items.filter(i=>activeCategory==='all'||i.cat===activeCategory);
+  if(searchQuery){
+    visible=visible.filter(i=>
+      (i.name||'').toLowerCase().includes(searchQuery)||
+      (i.cat||'').toLowerCase().includes(searchQuery)||
+      (i.desc||'').toLowerCase().includes(searchQuery)
+    );
+  }
+
   if(searchQuery){visible=visible.filter(i=>(i.name||'').toLowerCase().includes(searchQuery)||(i.cat||'').toLowerCase().includes(searchQuery)||(i.desc||'').toLowerCase().includes(searchQuery));}
   const gridTitle=document.getElementById('grid-title');
   const rc=document.getElementById('results-count');
+  if(searchQuery){
+    gridTitle.textContent=`Resultados para "${searchQuery}"`;
+    rc.textContent=`${visible.length} produto${visible.length!==1?'s':''} encontrado${visible.length!==1?'s':''}`;
+  }else if(activeCategory!=='all'){
+    gridTitle.textContent=activeCategory;
+    rc.textContent=`${visible.length} produto${visible.length!==1?'s':''}`;
+  }else{
+    gridTitle.textContent='Todos os produtos';
+    rc.textContent=visible.length?`${visible.length} produto${visible.length!==1?'s':''}`:'';}
+
   if(searchQuery){gridTitle.textContent='Resultados para "'+searchQuery+'"';rc.textContent=visible.length+' livro'+(visible.length!==1?'s':'')+' encontrado'+(visible.length!==1?'s':'');}
   else if(activeCategory!=='all'){gridTitle.textContent=activeCategory;rc.textContent=visible.length+' livro'+(visible.length!==1?'s':'');}
   else{gridTitle.textContent='Todos os livros';rc.textContent=visible.length?visible.length+' livro'+(visible.length!==1?'s':''):'';}
   const grid=document.getElementById('grid');
   if(visible.length===0){
+    grid.innerHTML=`<div class="empty-state">
+      <div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
+      <div class="empty-title">${searchQuery?'Nenhum resultado encontrado':'Nenhum produto ainda'}</div>
+      <div class="empty-sub">${searchQuery?'Tente outro termo de busca':'Acesse /admin para adicionar produtos'}</div>
+    </div>`;return;
     grid.innerHTML='<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div><div class="empty-title">'+(searchQuery?'Nenhum resultado encontrado':'Nenhum livro ainda')+'</div><div class="empty-sub">'+(searchQuery?'Tente outro termo de busca':'Acesse /#admin para adicionar livros')+'</div></div>';
     return;
   }
+
   grid.innerHTML=visible.map(it=>{
     const best=bestStore(it);
+    return`<div class="pcard">
+      <div class="pcard-img">
+        ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" onerror="this.style.display='none'"/>`:''}
+        ${ph(52)}
+      </div>
+      <div class="pcard-body">
+        ${it.cat?`<div class="pcard-cat">${esc(it.cat)}</div>`:''}
+        <div class="pcard-name">${highlight(it.name||'',searchQuery)}</div>
+        ${it.desc?`<div class="pcard-desc">${highlight(it.desc,searchQuery)}</div>`:''}
+      </div>
+      <div class="prices-section">${priceRows(it,best,false)}</div>
+    </div>`;
     return '<div class="pcard">'+
       '<div class="pcard-img">'+
         (it.img?'<img src="'+esc(it.img)+'" alt="'+esc(it.name)+'" onerror="this.style.display='none'"/>':'')+
@@ -464,6 +647,8 @@ function render(){
     '</div>';
   }).join('');
 }
+
+function priceRows(item,best,big){
 function priceRows(item,best){
   const stores=[
     {key:'amz',label:'Amazon',price:item.amzPrice,link:item.amzLink},
@@ -475,6 +660,12 @@ function priceRows(item,best){
     if(!s.link&&!s.price)continue;
     const isBest=s.key===best;
     if(s.link){
+      html+=`<a class="price-row ${s.key}${isBest?' best-price':''}" href="${esc(s.link)}" target="_blank" rel="nofollow sponsored noopener">
+        <span class="store-logo ${s.key}">${s.label}</span>
+        <span class="price-val">${s.price?esc(s.price):'Ver preço'}</span>
+        ${isBest?'<span class="best-tag">Menor preço</span>':''}
+        <span class="price-arrow">→</span>
+      </a>`;
       html+='<a class="price-row '+s.key+(isBest?' best-price':'')+'" href="'+esc(s.link)+'" target="_blank" rel="nofollow sponsored noopener">'+
         '<span class="store-logo '+s.key+'">'+s.label+'</span>'+
         '<span class="price-val">'+(s.price?esc(s.price):'Ver preco')+'</span>'+
@@ -482,16 +673,40 @@ function priceRows(item,best){
         '<span class="price-arrow">&#8594;</span>'+
       '</a>';
     }else if(s.price){
+      html+=`<div class="price-row ${s.key}" style="opacity:.55;cursor:default">
+        <span class="store-logo ${s.key}">${s.label}</span>
+        <span class="price-val">${esc(s.price)}</span>
+      </div>`;
       html+='<div class="price-row '+s.key+'" style="opacity:.55;cursor:default"><span class="store-logo '+s.key+'">'+s.label+'</span><span class="price-val">'+esc(s.price)+'</span></div>';
     }
   }
+  if(!html)html=`<div class="no-price">Nenhum link cadastrado ainda</div>`;
   if(!html)html='<div class="no-price">Nenhum link cadastrado ainda</div>';
   return html;
 }
+
+function ph(s){return`<svg class="pcard-img-placeholder" width="${s}" height="${s}" viewBox="0 0 52 52" fill="none"><rect x="6" y="10" width="40" height="32" rx="5" stroke="white" stroke-width="2"/><circle cx="19" cy="24" r="5" stroke="white" stroke-width="2"/><path d="M6 38l12-10 10 8 8-6 16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
 function ph(s){return '<svg class="pcard-img-placeholder" width="'+s+'" height="'+s+'" viewBox="0 0 52 52" fill="none"><rect x="6" y="10" width="40" height="32" rx="5" stroke="white" stroke-width="2"/><circle cx="19" cy="24" r="5" stroke="white" stroke-width="2"/><path d="M6 38l12-10 10 8 8-6 16 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
 function setCategory(c){activeCategory=c;render();}
+
+/* ===== ADMIN ===== */
 function renderAdminList(){
   const el=document.getElementById('admin-prod-list');
+  if(items.length===0){
+    el.innerHTML=`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">
+      Nenhum produto ainda.<br><br>
+      <button class="btn-primary" style="width:auto;margin:0 auto" onclick="switchTab('new')">+ Adicionar produto</button>
+    </div>`;return;
+  }
+  el.innerHTML=`<div class="prod-list">${items.map(it=>`
+    <div class="prod-item" onclick="editItem('${esc(it.id)}')">
+      <div class="prod-item-img">${it.img?`<img src="${esc(it.img)}" alt="" onerror="this.style.display='none'"/>`:''}</div>
+      <div class="prod-item-info">
+        <div class="prod-item-name">${esc(it.name)}</div>
+        <div class="prod-item-cat">${esc(it.cat||'Sem categoria')}${it.feat?' · ⭐':''}${it.asin?' · 🔗 ASIN':''}</div>
+      </div>
+      <button class="btn-icon"><svg viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button>
+    </div>`).join('')}</div>`;
   if(items.length===0){el.innerHTML='<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">Nenhum livro ainda.<br><br><button class="btn-primary" style="width:auto;margin:0 auto" onclick="switchTab('new')">+ Adicionar livro</button></div>';return;}
   el.innerHTML='<div class="prod-list">'+items.map(it=>
     '<div class="prod-item" onclick="editItem(''+esc(it.id)+'')">'+
@@ -501,21 +716,62 @@ function renderAdminList(){
     '</div>'
   ).join('')+'</div>';
 }
+
 function switchTab(tab){
   currentTab=tab;
   ['list','new'].forEach(t=>{
+    document.getElementById(`tab-${t}`).className='tab-panel'+(t===tab?' active':'');
+    document.getElementById(`tab-${t}-btn`).className='atab'+(t===tab?' active':'');
     document.getElementById('tab-'+t).className='tab-panel'+(t===tab?' active':'');
     document.getElementById('tab-'+t+'-btn').className='atab'+(t===tab?' active':'');
   });
   const btnDel=document.getElementById('btn-del-item');
   const btnSave=document.getElementById('btn-save-item');
+  if(tab==='new'){
+    document.getElementById('admin-modal-title').textContent=editId?'Editar produto':'Novo produto';
+    btnDel.style.display=editId?'block':'none';
+    btnSave.style.display='block';
+  }else{
+    document.getElementById('admin-modal-title').textContent='Gerenciar produtos';
+    btnDel.style.display='none';btnSave.style.display='none';
+    editId=null;renderAdminList();
+  }
+}
+
+function openAdminModal(){
+  editId=null;clearForm();renderAdminList();switchTab('list');
+  document.getElementById('tab-new-btn').textContent='+ Adicionar';
+  document.getElementById('admin-overlay').classList.add('open');
   if(tab==='new'){document.getElementById('admin-modal-title').textContent=editId?'Editar livro':'Novo livro';btnDel.style.display=editId?'block':'none';btnSave.style.display='block';}
   else{document.getElementById('admin-modal-title').textContent='Gerenciar livros';btnDel.style.display='none';btnSave.style.display='none';editId=null;renderAdminList();}
 }
 function openAdminModal(){editId=null;clearForm();renderAdminList();switchTab('list');document.getElementById('tab-new-btn').textContent='+ Adicionar';document.getElementById('admin-overlay').classList.add('open');}
 function closeAdminModal(){document.getElementById('admin-overlay').classList.remove('open');editId=null;}
+
+function clearForm(){
+  ['f-name','f-cat','f-img','f-desc','f-amz-asin','f-amz-price','f-amz-link','f-shp-price','f-shp-link','f-meli-price','f-meli-link']
+    .forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-feat').checked=false;
+}
+
 function clearForm(){['f-name','f-cat','f-img','f-desc','f-amz-asin','f-amz-price','f-amz-link','f-shp-price','f-shp-link','f-meli-price','f-meli-link'].forEach(id=>document.getElementById(id).value='');document.getElementById('f-feat').checked=false;}
 function editItem(id){
+  editId=id;
+  const it=items.find(x=>x.id===id);if(!it)return;
+  document.getElementById('f-name').value=it.name||'';
+  document.getElementById('f-cat').value=it.cat||'';
+  document.getElementById('f-img').value=it.img||'';
+  document.getElementById('f-desc').value=it.desc||'';
+  document.getElementById('f-amz-asin').value=it.asin||'';
+  document.getElementById('f-amz-price').value=it.amzPrice||'';
+  document.getElementById('f-amz-link').value=it.amzLink||'';
+  document.getElementById('f-shp-price').value=it.shpPrice||'';
+  document.getElementById('f-shp-link').value=it.shpLink||'';
+  document.getElementById('f-meli-price').value=it.meliPrice||'';
+  document.getElementById('f-meli-link').value=it.meliLink||'';
+  document.getElementById('f-feat').checked=!!it.feat;
+  document.getElementById('tab-new-btn').textContent='✏️ Editar';
+  switchTab('new');
   editId=id;const it=items.find(x=>x.id===id);if(!it)return;
   document.getElementById('f-name').value=it.name||'';document.getElementById('f-cat').value=it.cat||'';
   document.getElementById('f-img').value=it.img||'';document.getElementById('f-desc').value=it.desc||'';
@@ -525,16 +781,34 @@ function editItem(id){
   document.getElementById('f-meli-link').value=it.meliLink||'';document.getElementById('f-feat').checked=!!it.feat;
   document.getElementById('tab-new-btn').textContent='Editar';switchTab('new');
 }
+
 async function saveItem(){
   const name=document.getElementById('f-name').value.trim();
+  if(!name){toast('⚠️ Informe o nome do produto');return;}
   if(!name){toast('Informe o nome do livro');return;}
   const amzLink=document.getElementById('f-amz-link').value.trim();
   const shpLink=document.getElementById('f-shp-link').value.trim();
   const meliLink=document.getElementById('f-meli-link').value.trim();
+  if(!amzLink&&!shpLink&&!meliLink){toast('⚠️ Adicione pelo menos um link de loja');return;}
   if(!amzLink&&!shpLink&&!meliLink){toast('Adicione pelo menos um link de loja');return;}
   const feat=document.getElementById('f-feat').checked;
   if(feat)items=items.map(i=>({...i,feat:false}));
+  
   const item={
+    id:editId||Date.now().toString(),
+    name,
+    cat:document.getElementById('f-cat').value.trim(),
+    img:document.getElementById('f-img').value.trim(),
+    desc:document.getElementById('f-desc').value.trim(),
+    asin:document.getElementById('f-amz-asin').value.trim(),
+    amzPrice:document.getElementById('f-amz-price').value.trim(),
+    amzLink,
+    shpPrice:document.getElementById('f-shp-price').value.trim(),
+    shpLink,
+    meliPrice:document.getElementById('f-meli-price').value.trim(),
+    meliLink,
+    feat,
+    created:editId?(items.find(x=>x.id===editId)||{}).created:Date.now()
     id:editId||Date.now().toString(),name,
     cat:document.getElementById('f-cat').value.trim(),img:document.getElementById('f-img').value.trim(),
     desc:document.getElementById('f-desc').value.trim(),asin:document.getElementById('f-amz-asin').value.trim(),
@@ -543,37 +817,78 @@ async function saveItem(){
     meliPrice:document.getElementById('f-meli-price').value.trim(),meliLink,
     feat,created:editId?(items.find(x=>x.id===editId)||{}).created:Date.now()
   };
+  
+  if(editId){items=items.map(x=>x.id===editId?item:x);}
+  else{items.push(item);}
+  
   if(editId){items=items.map(x=>x.id===editId?item:x);}else{items.push(item);}
   const ok=await saveToDB();
   if(!ok){if(!editId)items.pop();return;}
+  render();clearForm();editId=null;
+  document.getElementById('tab-new-btn').textContent='+ Adicionar';
+  switchTab('list');
+  toast('✅ Produto salvo!');
   render();clearForm();editId=null;document.getElementById('tab-new-btn').textContent='+ Adicionar';switchTab('list');toast('Livro salvo!');
 }
+
 async function deleteItem(){
+  if(!editId)return;
+  if(!confirm('Excluir este produto?'))return;
+  const backup=[...items];
+  items=items.filter(x=>x.id!==editId);
+  const ok=await saveToDB();
+  if(!ok){items=backup;return;}
+  render();editId=null;switchTab('list');toast('🗑️ Produto removido');
   if(!editId)return;if(!confirm('Excluir este livro?'))return;
   const backup=[...items];items=items.filter(x=>x.id!==editId);
   const ok=await saveToDB();if(!ok){items=backup;return;}
   render();editId=null;switchTab('list');toast('Livro removido');
 }
+
+/* ===== PASSWORD & HASH ROUTING ===== */
 function openPwModal(){
   if(authed){openAdminModal();return;}
+  document.getElementById('pw-input').value='';
+  document.getElementById('pw-error').classList.remove('show');
   document.getElementById('pw-input').value='';document.getElementById('pw-error').classList.remove('show');
   document.getElementById('pw-overlay').classList.add('open');
   setTimeout(()=>document.getElementById('pw-input').focus(),100);
 }
+function closePwModal(){
+  document.getElementById('pw-overlay').classList.remove('open');
+  history.replaceState(null,'',location.pathname);
+}
 function closePwModal(){document.getElementById('pw-overlay').classList.remove('open');history.replaceState(null,'',location.pathname);}
 function checkPw(){
+  if(document.getElementById('pw-input').value===ADMIN_PASSWORD){
+    authed=true;closePwModal();openAdminModal();
+  }else{
+    document.getElementById('pw-error').classList.add('show');
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function checkHash(){
+  if(location.hash==='#admin'){openPwModal();}
   if(document.getElementById('pw-input').value===ADMIN_PASSWORD){authed=true;closePwModal();openAdminModal();}
   else{document.getElementById('pw-error').classList.add('show');document.getElementById('pw-input').value='';document.getElementById('pw-input').focus();}
 }
+
+/* ===== UTILS ===== */
 function checkHash(){if(location.hash==='#admin'){openPwModal();}}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+
 document.getElementById('pw-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('pw-overlay'))closePwModal()});
 document.getElementById('admin-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('admin-overlay'))closeAdminModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePwModal();closeAdminModal()}});
 window.addEventListener('hashchange',checkHash);
+
+/* ===== INIT ===== */
 document.getElementById('ano').textContent=new Date().getFullYear();
 loadFromDB().then(checkHash);
+</script>
 <\/script>
 </body>
 </html>
