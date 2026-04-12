@@ -986,9 +986,11 @@ window.addEventListener('hashchange',checkHash);
 
 /* ===== INIT ===== */
 document.getElementById('ano').textContent=new Date().getFullYear();
-loadFromDB().then(checkHash);
+loadFromDB().then(checkHash)
+ 
+</script>
 
-<!-- MODAL DO LIVRO (Popup) -->
+ <!-- MODAL DO LIVRO (Popup) -->
 <div class="modal-overlay" id="book-modal" onclick="closeBookModal()">
   <div class="modal-content" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeBookModal()">&times;</button>
@@ -1000,6 +1002,5 @@ loadFromDB().then(checkHash);
   </div>
 </div>
  
-</script>
 </body>
 </html>
