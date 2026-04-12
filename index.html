@@ -8,12 +8,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
- 
-  <!-- Favicon -->
+
+<!-- Favicon -->
 <link rel="icon" type="image/png" sizes="64x64" href="https://codexbylogos.vercel.app/assets/images/favicon.png">
 <link rel="apple-touch-icon" href="https://codexbylogos.vercel.app/assets/images/favicon.png">
 <link rel="shortcut icon" href="https://codexbylogos.vercel.app/assets/images/favicon.png">
-  
+
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -35,7 +35,7 @@ img{display:block}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--subtle);border-radius:3px}
-  
+
 /* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(11,11,15,0.75);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06)}
 .nav-inner{max-width:1180px;margin:0 auto;padding:0 1.5rem;height:68px;display:flex;align-items:center;gap:1.5rem}
@@ -235,145 +235,6 @@ mark{background:rgba(139,92,246,0.25);color:var(--primary);border-radius:2px;pad
 }
 @keyframes fadeinup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero{animation:fadeinup .5s ease both}
- /* MODAL (POPUP) DO LIVRO */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  animation: fadeIn 0.2s ease;
-}
-
-.modal-overlay.active {
-  display: flex;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.modal-content {
-  background: var(--card);
-  border: 1px solid var(--primary-border);
-  border-radius: var(--radius);
-  max-width: 800px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-  animation: slideUp 0.25s ease;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text);
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 22px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s;
-  z-index: 10;
-}
-
-.modal-close:hover {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
-
-.modal-book-container {
-  padding: 2rem;
-}
-
-.modal-book-grid {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 2rem;
-}
-
-@media (max-width: 600px) {
-  .modal-book-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.modal-book-cover img {
-  width: 100%;
-  height: auto;
-  border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.modal-book-category {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.3px;
-  text-transform: uppercase;
-  color: var(--primary);
-  margin-bottom: 0.5rem;
-}
-
-.modal-book-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.8rem;
-  font-weight: 800;
-  line-height: 1.2;
-  color: var(--text);
-  margin-bottom: 0.5rem;
-}
-
-.modal-book-author {
-  font-size: 1rem;
-  color: var(--gold);
-  font-weight: 500;
-  margin-bottom: 1rem;
-}
-
-.modal-book-description {
-  font-size: 0.9rem;
-  color: var(--muted);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-
-.modal-book-prices {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.modal-book-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--surface);
-  border-radius: var(--radius-sm);
-  aspect-ratio: 3/4;
-  opacity: 0.5;
-}
 </style>
 </head>
 <body>
@@ -382,99 +243,18 @@ mark{background:rgba(139,92,246,0.25);color:var(--primary);border-radius:2px;pad
 const ADMIN_PASSWORD = "farenheit";
 const JSONBIN_KEY    = "$2a$10$N.ce/SYQr6ExcinOFXZXdeMqNE.bS/nlERJdY7tYEErCkP7kfcHhK";
 const JSONBIN_BIN_ID = "69d7fa5b856a6821891781fd";
-
- /* ===== MODAL DO LIVRO ===== */
-function openBookModal(bookId) {
-  const book = items.find(i => i.id === bookId);
-  if (!book) return;
-  
-  const modal = document.getElementById('book-modal');
-  const container = document.getElementById('modal-book-content');
-  
-  // Formatar preços
-  const best = bestStore(book);
-  const stores = [
-    { key: 'amz', label: 'Amazon', price: book.amzPrice, link: book.amzLink },
-    { key: 'shp', label: 'Shopee', price: book.shpPrice, link: book.shpLink },
-    { key: 'meli', label: 'Mercado Livre', price: book.meliPrice, link: book.meliLink }
-  ];
-  
-  let pricesHtml = '';
-  for (const s of stores) {
-    if (!s.link && !s.price) continue;
-    const isBest = s.key === best;
-    if (s.link) {
-      pricesHtml += `<a class="price-row ${s.key}${isBest ? ' best-price' : ''}" href="${esc(s.link)}" target="_blank" rel="nofollow sponsored">
-        <span class="store-logo ${s.key}">${s.label}</span>
-        <span class="price-val">${s.price ? esc(s.price) : 'Ver preço'}</span>
-        ${isBest ? '<span class="best-tag">Menor preço</span>' : ''}
-        <span class="price-arrow">→</span>
-      </a>`;
-    } else if (s.price) {
-      pricesHtml += `<div class="price-row ${s.key}" style="opacity:.55;cursor:default">
-        <span class="store-logo ${s.key}">${s.label}</span>
-        <span class="price-val">${esc(s.price)}</span>
-      </div>`;
-    }
-  }
-  
-  // Montar conteúdo do modal
-  const html = `
-    <div class="modal-book-grid">
-      <div class="modal-book-cover">
-        ${book.img ? 
-          `<img src="${esc(book.img)}" alt="${esc(book.name)}" onerror="this.parentElement.innerHTML='<div class=\'modal-book-placeholder\'>${ph(80)}</div>'">` : 
-          `<div class="modal-book-placeholder">${ph(80)}</div>`
-        }
-      </div>
-      <div class="modal-book-info">
-        ${book.cat ? `<div class="modal-book-category">${esc(book.cat)}</div>` : ''}
-        <h2 class="modal-book-title">${esc(book.name)}</h2>
-        ${book.author ? `<div class="modal-book-author">${esc(book.author)}</div>` : ''}
-        <p class="modal-book-description">${esc(book.desc || 'Nenhuma descrição disponível.')}</p>
-        <div class="modal-book-prices">
-          ${pricesHtml || '<div class="no-price">Nenhum link cadastrado</div>'}
-        </div>
-      </div>
-    </div>
-  `;
-  
-  container.innerHTML = html;
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden'; // Bloqueia scroll do fundo
-}
-
-function closeBookModal() {
-  const modal = document.getElementById('book-modal');
-  modal.classList.remove('active');
-  document.body.style.overflow = ''; // Libera scroll
-}
-
-// Fechar modal com tecla ESC
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeBookModal();
-  }
-});
- 
 </script>
 
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-<a class="logo" href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
-  <!-- Imagem do Logo -->
-  <img src="/assets/images/logo-codex-horizontal.png" 
-     alt="Codex by Logos" 
-     style="height: 40px; width: auto; display: block;"
-     loading="eager">
-  
-  <!-- Texto da Marca -->
-  <div>
-    <div class="logo-text">Codex</div>
-    <div class="logo-sub">by Logos</div>
-  </div>
-</a>
+    <a class="logo" href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
+      <img src="/assets/images/logo-codex-horizontal.png" alt="Codex by Logos" style="height: 40px; width: auto; display: block;" loading="eager">
+      <div>
+        <div class="logo-text">Codex</div>
+        <div class="logo-sub">by Logos</div>
+      </div>
+    </a>
     <div class="nav-search">
       <div class="nav-search-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
       <input type="text" id="nav-search-input" placeholder="Buscar livros..." oninput="onSearch(this.value)"/>
@@ -493,18 +273,9 @@ document.addEventListener('keydown', (e) => {
     <input type="text" id="hero-search-input" placeholder="O que você está procurando?" oninput="onSearch(this.value)"/>
   </div>
   <div class="stores-badges">
-    <div class="store-badge amz">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-      Amazon
-    </div>
-    <div class="store-badge shp">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-      Shopee
-    </div>
-    <div class="store-badge meli">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-      Mercado Livre
-    </div>
+    <div class="store-badge amz"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Amazon</div>
+    <div class="store-badge shp"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Shopee</div>
+    <div class="store-badge meli"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Mercado Livre</div>
   </div>
   <div class="hero-stats">
     <div><span class="stat-n" id="stat-products">0</span><span class="stat-l">Produtos comparados</span></div>
@@ -516,10 +287,7 @@ document.addEventListener('keydown', (e) => {
 <!-- FEATURED -->
 <div id="featured-section" class="section" style="display:none">
   <div class="section-header">
-    <div>
-      <div class="section-eyebrow">⭐ Destaque especial</div>
-      <div class="section-title">Livro da semana</div>
-    </div>
+    <div><div class="section-eyebrow">⭐ Destaque especial</div><div class="section-title">Livro da semana</div></div>
   </div>
   <div id="featured-card"></div>
 </div>
@@ -528,15 +296,10 @@ document.addEventListener('keydown', (e) => {
 <!-- GRID -->
 <div class="section">
   <div class="section-header">
-    <div>
-      <div class="section-eyebrow">Comparador de preços</div>
-      <div class="section-title" id="grid-title">Todos os livros</div>
-    </div>
+    <div><div class="section-eyebrow">Comparador de preços</div><div class="section-title" id="grid-title">Todos os livros</div></div>
     <div class="results-count" id="results-count"></div>
   </div>
-  <div class="grid" id="grid">
-    <div class="loading-state"><div class="spinner"></div>Carregando livros...</div>
-  </div>
+  <div class="grid" id="grid"><div class="loading-state"><div class="spinner"></div>Carregando livros...</div></div>
 </div>
 
 <!-- FOOTER -->
@@ -550,9 +313,7 @@ document.addEventListener('keydown', (e) => {
 <!-- PW MODAL -->
 <div class="overlay" id="pw-overlay">
   <div class="pw-modal">
-    <div class="pw-icon">
-      <svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 015 5v2h1a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2v-9a2 2 0 012-2h1V6a5 5 0 015-5zm0 12a2 2 0 100 4 2 2 0 000-4zm0-10a3 3 0 00-3 3v2h6V6a3 3 0 00-3-3z"/></svg>
-    </div>
+    <div class="pw-icon"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 015 5v2h1a2 2 0 012 2v9a2 2 0 01-2 2H6a2 2 0 01-2-2v-9a2 2 0 012-2h1V6a5 5 0 015-5zm0 12a2 2 0 100 4 2 2 0 000-4zm0-10a3 3 0 00-3 3v2h6V6a3 3 0 00-3-3z"/></svg></div>
     <div class="pw-title">Painel administrativo</div>
     <p class="pw-sub">Digite a senha para acessar</p>
     <input type="password" class="pw-input" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()"/>
@@ -577,13 +338,7 @@ document.addEventListener('keydown', (e) => {
         <button class="atab active" id="tab-list-btn" onclick="switchTab('list')">📋 Livros</button>
         <button class="atab" id="tab-new-btn" onclick="switchTab('new')">+ Adicionar</button>
       </div>
-
-      <!-- LIST -->
-      <div class="tab-panel active" id="tab-list">
-        <div id="admin-prod-list"></div>
-      </div>
-
-      <!-- FORM -->
+      <div class="tab-panel active" id="tab-list"><div id="admin-prod-list"></div></div>
       <div class="tab-panel" id="tab-new">
         <div style="display:flex;flex-direction:column;gap:1rem">
           <div class="mfield"><label>Nome do livro *</label><input id="f-name" placeholder="Ex: O Poder do Hábito"/></div>
@@ -591,58 +346,31 @@ document.addEventListener('keydown', (e) => {
             <div class="mfield"><label>Categoria *</label><input id="f-cat" placeholder="Ex: Desenvolvimento Pessoal"/></div>
             <div class="mfield"><label>URL da imagem</label><input id="f-img" placeholder="https://..."/></div>
           </div>
+          <div class="mfield"><label>Autor</label><input id="f-author" placeholder="Ex: Charles Duhigg"/></div>
           <div class="mfield"><label>Descrição</label><textarea id="f-desc" placeholder="Por que você recomenda? Principais características..."></textarea></div>
-
-          <!-- AMAZON -->
           <div class="store-section">
-            <div class="store-section-title amz">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-              Amazon
-            </div>
-            
-            <!-- CAMPO ASIN -->
-            <div class="mfield">
-              <label>Código ASIN *</label>
-              <input id="f-amz-asin" placeholder="Ex: 8551005197"/>
-              <small style="color:var(--muted);font-size:11px;display:block;margin-top:4px">
-                Encontre na URL: amazon.com.br/dp/<strong style="color:var(--primary)">ASIN</strong>
-              </small>
-            </div>
-            
+            <div class="store-section-title amz"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Amazon</div>
+            <div class="mfield"><label>Código ASIN *</label><input id="f-amz-asin" placeholder="Ex: 8551005197"/><small style="color:var(--muted);font-size:11px;display:block;margin-top:4px">Encontre na URL: amazon.com.br/dp/<strong style="color:var(--primary)">ASIN</strong></small></div>
             <div class="row2">
               <div class="mfield"><label>Preço Amazon</label><input id="f-amz-price" placeholder="R$ 49,90"/></div>
               <div class="mfield"><label>Link de associado *</label><input id="f-amz-link" placeholder="https://amzn.to/..."/></div>
             </div>
           </div>
-
-          <!-- SHOPEE -->
           <div class="store-section">
-            <div class="store-section-title shp">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-              Shopee
-            </div>
+            <div class="store-section-title shp"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Shopee</div>
             <div class="row2">
               <div class="mfield"><label>Preço Shopee</label><input id="f-shp-price" placeholder="R$ 279,90"/></div>
               <div class="mfield"><label>Link de afiliado</label><input id="f-shp-link" placeholder="https://shope.ee/..."/></div>
             </div>
           </div>
-
-          <!-- MERCADO LIVRE -->
           <div class="store-section">
-            <div class="store-section-title meli">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-              Mercado Livre
-            </div>
+            <div class="store-section-title meli"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Mercado Livre</div>
             <div class="row2">
               <div class="mfield"><label>Preço Mercado Livre</label><input id="f-meli-price" placeholder="R$ 289,90"/></div>
               <div class="mfield"><label>Link de afiliado</label><input id="f-meli-link" placeholder="https://mercadolivre.com.br/..."/></div>
             </div>
           </div>
-
-          <label class="feat-toggle">
-            <input type="checkbox" id="f-feat"/>
-            <div><span>⭐ Destacar como livro da semana</span><br><small>Aparece em destaque no topo</small></div>
-          </label>
+          <label class="feat-toggle"><input type="checkbox" id="f-feat"/><div><span>⭐ Destacar como livro da semana</span><br><small>Aparece em destaque no topo</small></div></label>
         </div>
       </div>
     </div>
@@ -687,16 +415,12 @@ async function saveToDB(){
 }
 
 /* ===== PRICE UTILS ===== */
-function parsePrice(str){
-  if(!str)return null;
-  const n=parseFloat(str.replace(/[^\d,\.]/g,'').replace(',','.'));
-  return isNaN(n)?null:n;
-}
+function parsePrice(str){if(!str)return null;const n=parseFloat(str.replace(/[^\d,\.]/g,'').replace(',','.'));return isNaN(n)?null:n;}
 function bestStore(item){
   const stores=[
     {key:'amz',price:parsePrice(item.amzPrice),link:item.amzLink},
     {key:'shp',price:parsePrice(item.shpPrice),link:item.shpLink},
-    {key:'meli',price:parsePrice(item.meliPrice),link:item.meliLink},
+    {key:'meli',price:parsePrice(item.meliPrice),link:item.meliLink}
   ].filter(s=>s.price!==null&&s.link);
   if(!stores.length)return null;
   return stores.reduce((a,b)=>a.price<=b.price?a:b).key;
@@ -723,12 +447,10 @@ function render(){
   document.getElementById('stat-products').textContent=items.length;
   document.getElementById('stat-cats').textContent=uniqueCats.length;
 
-  // cats
   document.getElementById('nav-cats').innerHTML=['all',...uniqueCats].map(c=>
     `<button class="cat-btn${c===activeCategory?' active':''}" onclick="setCategory('${esc(c)}')">${c==='all'?'Todos':esc(c)}</button>`
   ).join('');
 
-  // featured
   const feat=items.find(i=>i.feat);
   const fs=document.getElementById('featured-section');
   const fd=document.getElementById('feat-divider');
@@ -738,7 +460,7 @@ function render(){
     document.getElementById('featured-card').innerHTML=`
       <div class="featured-wrap">
         <div class="feat-img">
-          ${feat.img?`<img src="${esc(feat.img)}" alt="${esc(feat.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>`:''}
+          ${feat.img?`<img src="${esc(feat.img)}" alt="${esc(feat.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`:''}
           ${!feat.img?ph(80):`<div class="pcard-img-placeholder" style="display:none;">${ph(80)}</div>`}
           <div class="feat-badge">⭐ Melhor oferta</div>
         </div>
@@ -751,81 +473,53 @@ function render(){
       </div>`;
   }else{fs.style.display='none';fd.style.display='none';}
 
-  // filter
   let visible=items.filter(i=>activeCategory==='all'||i.cat===activeCategory);
   if(searchQuery){
     visible=visible.filter(i=>
-      (i.name||'').toLowerCase().includes(searchQuery)||
-      (i.cat||'').toLowerCase().includes(searchQuery)||
-      (i.desc||'').toLowerCase().includes(searchQuery)
+      (i.name||'').toLowerCase().includes(searchQuery)||(i.cat||'').toLowerCase().includes(searchQuery)||(i.desc||'').toLowerCase().includes(searchQuery)
     );
   }
 
   const gridTitle=document.getElementById('grid-title');
   const rc=document.getElementById('results-count');
-  if(searchQuery){
-    gridTitle.textContent=`Resultados para "${searchQuery}"`;
-    rc.textContent=`${visible.length} livro${visible.length!==1?'s':''} encontrado${visible.length!==1?'s':''}`;
-  }else if(activeCategory!=='all'){
-    gridTitle.textContent=activeCategory;
-    rc.textContent=`${visible.length} livro${visible.length!==1?'s':''}`;
-  }else{
-    gridTitle.textContent='Todos os livros';
-    rc.textContent=visible.length?`${visible.length} livro${visible.length!==1?'s':''}`:'';}
+  if(searchQuery){gridTitle.textContent=`Resultados para "${searchQuery}"`;rc.textContent=`${visible.length} livro${visible.length!==1?'s':''} encontrado${visible.length!==1?'s':''}`;}
+  else if(activeCategory!=='all'){gridTitle.textContent=activeCategory;rc.textContent=`${visible.length} livro${visible.length!==1?'s':''}`;}
+  else{gridTitle.textContent='Todos os livros';rc.textContent=visible.length?`${visible.length} livro${visible.length!==1?'s':''}`:'';}
 
   const grid=document.getElementById('grid');
   if(visible.length===0){
-    grid.innerHTML=`<div class="empty-state">
-      <div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div>
-      <div class="empty-title">${searchQuery?'Nenhum resultado encontrado':'Nenhum livro ainda'}</div>
-      <div class="empty-sub">${searchQuery?'Tente outro termo de busca':'Acesse /admin para adicionar livros'}</div>
-    </div>`;return;
+    grid.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></div><div class="empty-title">${searchQuery?'Nenhum resultado encontrado':'Nenhum livro ainda'}</div><div class="empty-sub">${searchQuery?'Tente outro termo de busca':'Acesse /admin para adicionar livros'}</div></div>`;return;
   }
 
-grid.innerHTML = visible.map(function(it) {
-  var best = bestStore(it);
-  var imgHtml = '';
-  if (it.img) {
-    imgHtml = '<img src="' + esc(it.img) + '" alt="' + esc(it.name) + '" loading="lazy" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">';
-  }
-  var placeholderHtml = '';
-  if (!it.img) {
-    placeholderHtml = ph(52);
-  } else {
-    placeholderHtml = '<div class="pcard-img-placeholder" style="display:none;">' + ph(52) + '</div>';
-  }
-  
-  var catHtml = it.cat ? '<div class="pcard-cat">' + esc(it.cat) + '</div>' : '';
-  var nameHtml = '<div class="pcard-name">' + highlight(it.name || '', searchQuery) + '</div>';
-  var descHtml = it.desc ? '<div class="pcard-desc">' + highlight(it.desc, searchQuery) + '</div>' : '';
-  
-  return '<div class="pcard" onclick="openBookModal(\'' + it.id + '\')" style="cursor:pointer;">' +
-    '<div class="pcard-img">' +
-      imgHtml +
-      placeholderHtml +
-    '</div>' +
-    '<div class="pcard-body">' +
-      catHtml +
-      nameHtml +
-      descHtml +
-    '</div>' +
-    '<div class="prices-section">' + priceRows(it, best, false) + '</div>' +
-  '</div>';
-}).join('');
+  grid.innerHTML=visible.map(it=>{
+    const best=bestStore(it);
+    return `<div class="pcard" onclick="window.open('${best==='amz'?it.amzLink:best==='shp'?it.shpLink:it.meliLink}', '_blank')" style="cursor:pointer;">
+      <div class="pcard-img">
+        ${it.img?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">`:''}
+        ${!it.img?ph(52):`<div class="pcard-img-placeholder" style="display:none;">${ph(52)}</div>`}
+      </div>
+      <div class="pcard-body">
+        ${it.cat?`<div class="pcard-cat">${esc(it.cat)}</div>`:''}
+        <div class="pcard-name">${highlight(it.name||'',searchQuery)}</div>
+        ${it.desc?`<div class="pcard-desc">${highlight(it.desc,searchQuery)}</div>`:''}
+      </div>
+      <div class="prices-section">${priceRows(it,best,false)}</div>
+    </div>`;
+  }).join('');
 }
 
 function priceRows(item,best,big){
   const stores=[
     {key:'amz',label:'Amazon',price:item.amzPrice,link:item.amzLink},
     {key:'shp',label:'Shopee',price:item.shpPrice,link:item.shpLink},
-    {key:'meli',label:'Mercado Livre',price:item.meliPrice,link:item.meliLink},
+    {key:'meli',label:'Mercado Livre',price:item.meliPrice,link:item.meliLink}
   ];
   let html='';
   for(const s of stores){
     if(!s.link&&!s.price)continue;
     const isBest=s.key===best;
     if(s.link){
-      html+=`<a class="price-row ${s.key}${isBest?' best-price':''}" href="${esc(s.link)}" target="_blank" rel="nofollow sponsored noopener">
+      html+=`<a class="price-row ${s.key}${isBest?' best-price':''}" href="${esc(s.link)}" target="_blank" rel="nofollow sponsored noopener" onclick="event.stopPropagation()">
         <span class="store-logo ${s.key}">${s.label}</span>
         <span class="price-val">${s.price?esc(s.price):'Ver preço'}</span>
         ${isBest?'<span class="best-tag">Menor preço</span>':''}
@@ -848,52 +542,23 @@ function setCategory(c){activeCategory=c;render();}
 /* ===== ADMIN ===== */
 function renderAdminList(){
   const el=document.getElementById('admin-prod-list');
-  if(items.length===0){
-    el.innerHTML=`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">
-      Nenhum livro ainda.<br><br>
-      <button class="btn-primary" style="width:auto;margin:0 auto" onclick="switchTab('new')">+ Adicionar livro</button>
-    </div>`;return;
-  }
-  el.innerHTML=`<div class="prod-list">${items.map(it=>`
-    <div class="prod-item" onclick="editItem('${esc(it.id)}')">
-      <div class="prod-item-img">${it.img?`<img src="${esc(it.img)}" alt="" loading="lazy" onerror="this.style.display='none'"/>`:''}</div>
-      <div class="prod-item-info">
-        <div class="prod-item-name">${esc(it.name)}</div>
-        <div class="prod-item-cat">${esc(it.cat||'Sem categoria')}${it.feat?' · ⭐':''}${it.asin?' · 🔗 ASIN':''}</div>
-      </div>
-      <button class="btn-icon"><svg viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button>
-    </div>`).join('')}</div>`;
+  if(items.length===0){el.innerHTML=`<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">Nenhum livro ainda.<br><br><button class="btn-primary" style="width:auto;margin:0 auto" onclick="switchTab('new')">+ Adicionar livro</button></div>`;return;}
+  el.innerHTML=`<div class="prod-list">${items.map(it=>`<div class="prod-item" onclick="editItem('${esc(it.id)}')"><div class="prod-item-img">${it.img?`<img src="${esc(it.img)}" alt="" loading="lazy" onerror="this.style.display='none'"/>`:''}</div><div class="prod-item-info"><div class="prod-item-name">${esc(it.name)}</div><div class="prod-item-cat">${esc(it.cat||'Sem categoria')}${it.feat?' · ⭐':''}${it.asin?' · 🔗 ASIN':''}</div></div><button class="btn-icon"><svg viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>`).join('')}</div>`;
 }
 
 function switchTab(tab){
   currentTab=tab;
-  ['list','new'].forEach(t=>{
-    document.getElementById(`tab-${t}`).className='tab-panel'+(t===tab?' active':'');
-    document.getElementById(`tab-${t}-btn`).className='atab'+(t===tab?' active':'');
-  });
-  const btnDel=document.getElementById('btn-del-item');
-  const btnSave=document.getElementById('btn-save-item');
-  if(tab==='new'){
-    document.getElementById('admin-modal-title').textContent=editId?'Editar livro':'Novo livro';
-    btnDel.style.display=editId?'block':'none';
-    btnSave.style.display='block';
-  }else{
-    document.getElementById('admin-modal-title').textContent='Gerenciar livros';
-    btnDel.style.display='none';btnSave.style.display='none';
-    editId=null;renderAdminList();
-  }
+  ['list','new'].forEach(t=>{document.getElementById(`tab-${t}`).className='tab-panel'+(t===tab?' active':'');document.getElementById(`tab-${t}-btn`).className='atab'+(t===tab?' active':'');});
+  const btnDel=document.getElementById('btn-del-item'),btnSave=document.getElementById('btn-save-item');
+  if(tab==='new'){document.getElementById('admin-modal-title').textContent=editId?'Editar livro':'Novo livro';btnDel.style.display=editId?'block':'none';btnSave.style.display='block';}
+  else{document.getElementById('admin-modal-title').textContent='Gerenciar livros';btnDel.style.display='none';btnSave.style.display='none';editId=null;renderAdminList();}
 }
 
-function openAdminModal(){
-  editId=null;clearForm();renderAdminList();switchTab('list');
-  document.getElementById('tab-new-btn').textContent='+ Adicionar';
-  document.getElementById('admin-overlay').classList.add('open');
-}
+function openAdminModal(){editId=null;clearForm();renderAdminList();switchTab('list');document.getElementById('tab-new-btn').textContent='+ Adicionar';document.getElementById('admin-overlay').classList.add('open');}
 function closeAdminModal(){document.getElementById('admin-overlay').classList.remove('open');editId=null;}
 
 function clearForm(){
-  ['f-name','f-cat','f-img','f-desc','f-amz-asin','f-amz-price','f-amz-link','f-shp-price','f-shp-link','f-meli-price','f-meli-link']
-    .forEach(id=>document.getElementById(id).value='');
+  ['f-name','f-cat','f-img','f-author','f-desc','f-amz-asin','f-amz-price','f-amz-link','f-shp-price','f-shp-link','f-meli-price','f-meli-link'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('f-feat').checked=false;
 }
 
@@ -903,6 +568,7 @@ function editItem(id){
   document.getElementById('f-name').value=it.name||'';
   document.getElementById('f-cat').value=it.cat||'';
   document.getElementById('f-img').value=it.img||'';
+  document.getElementById('f-author').value=it.author||'';
   document.getElementById('f-desc').value=it.desc||'';
   document.getElementById('f-amz-asin').value=it.asin||'';
   document.getElementById('f-amz-price').value=it.amzPrice||'';
@@ -919,33 +585,24 @@ function editItem(id){
 async function saveItem(){
   const name=document.getElementById('f-name').value.trim();
   if(!name){toast('⚠️ Informe o nome do livro');return;}
-  const amzLink=document.getElementById('f-amz-link').value.trim();
-  const shpLink=document.getElementById('f-shp-link').value.trim();
-  const meliLink=document.getElementById('f-meli-link').value.trim();
+  const amzLink=document.getElementById('f-amz-link').value.trim(),shpLink=document.getElementById('f-shp-link').value.trim(),meliLink=document.getElementById('f-meli-link').value.trim();
   if(!amzLink&&!shpLink&&!meliLink){toast('⚠️ Adicione pelo menos um link de loja');return;}
   const feat=document.getElementById('f-feat').checked;
   if(feat)items=items.map(i=>({...i,feat:false}));
-  
   const item={
-    id:editId||Date.now().toString(),
-    name,
+    id:editId||Date.now().toString(),name,
     cat:document.getElementById('f-cat').value.trim(),
     img:document.getElementById('f-img').value.trim(),
+    author:document.getElementById('f-author').value.trim(),
     desc:document.getElementById('f-desc').value.trim(),
     asin:document.getElementById('f-amz-asin').value.trim(),
-    amzPrice:document.getElementById('f-amz-price').value.trim(),
-    amzLink,
-    shpPrice:document.getElementById('f-shp-price').value.trim(),
-    shpLink,
-    meliPrice:document.getElementById('f-meli-price').value.trim(),
-    meliLink,
+    amzPrice:document.getElementById('f-amz-price').value.trim(),amzLink,
+    shpPrice:document.getElementById('f-shp-price').value.trim(),shpLink,
+    meliPrice:document.getElementById('f-meli-price').value.trim(),meliLink,
     feat,
     created:editId?(items.find(x=>x.id===editId)||{}).created:Date.now()
   };
-  
-  if(editId){items=items.map(x=>x.id===editId?item:x);}
-  else{items.push(item);}
-  
+  if(editId){items=items.map(x=>x.id===editId?item:x);}else{items.push(item);}
   const ok=await saveToDB();
   if(!ok){if(!editId)items.pop();return;}
   render();clearForm();editId=null;
@@ -964,58 +621,32 @@ async function deleteItem(){
   render();editId=null;switchTab('list');toast('🗑️ Livro removido');
 }
 
-/* ===== PASSWORD & HASH ROUTING ===== */
+/* ===== PASSWORD & HASH ===== */
 function openPwModal(){
   if(authed){openAdminModal();return;}
-  document.getElementById('pw-input').value='';
-  document.getElementById('pw-error').classList.remove('show');
+  document.getElementById('pw-input').value='';document.getElementById('pw-error').classList.remove('show');
   document.getElementById('pw-overlay').classList.add('open');
   setTimeout(()=>document.getElementById('pw-input').focus(),100);
 }
-function closePwModal(){
-  document.getElementById('pw-overlay').classList.remove('open');
-  history.replaceState(null,'',location.pathname);
-}
+function closePwModal(){document.getElementById('pw-overlay').classList.remove('open');history.replaceState(null,'',location.pathname);}
 function checkPw(){
-  if(document.getElementById('pw-input').value===ADMIN_PASSWORD){
-    authed=true;closePwModal();openAdminModal();
-  }else{
-    document.getElementById('pw-error').classList.add('show');
-    document.getElementById('pw-input').value='';
-    document.getElementById('pw-input').focus();
-  }
+  if(document.getElementById('pw-input').value===ADMIN_PASSWORD){authed=true;closePwModal();openAdminModal();}
+  else{document.getElementById('pw-error').classList.add('show');document.getElementById('pw-input').value='';document.getElementById('pw-input').focus();}
 }
-
-function checkHash(){
-  if(location.hash==='#admin'){openPwModal();}
-}
+function checkHash(){if(location.hash==='#admin')openPwModal();}
 
 /* ===== UTILS ===== */
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 
-document.getElementById('pw-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('pw-overlay'))closePwModal()});
-document.getElementById('admin-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('admin-overlay'))closeAdminModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePwModal();closeAdminModal()}});
+document.getElementById('pw-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('pw-overlay'))closePwModal();});
+document.getElementById('admin-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('admin-overlay'))closeAdminModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePwModal();closeAdminModal();}});
 window.addEventListener('hashchange',checkHash);
 
 /* ===== INIT ===== */
 document.getElementById('ano').textContent=new Date().getFullYear();
-loadFromDB().then(checkHash)
- 
+loadFromDB().then(checkHash);
 </script>
-
- <!-- MODAL DO LIVRO (Popup) -->
-<div class="modal-overlay" id="book-modal" onclick="closeBookModal()">
-  <div class="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeBookModal()">&times;</button>
-    
-    <div class="modal-book-container" id="modal-book-content">
-      <!-- O conteúdo será preenchido via JavaScript -->
-      <div style="text-align:center;padding:2rem;">Carregando...</div>
-    </div>
-  </div>
-</div>
- 
 </body>
 </html>
